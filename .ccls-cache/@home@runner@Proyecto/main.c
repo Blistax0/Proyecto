@@ -231,6 +231,7 @@ int main(void) {
       case '1':
         limpiarPantalla();
         jugar_blackjack();
+        printf("Quieres seguir jugando")
         break;
       case '2':
         
