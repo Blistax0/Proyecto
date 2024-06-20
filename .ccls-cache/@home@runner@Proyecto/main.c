@@ -27,17 +27,19 @@ typedef struct{
   int puntuacion; // Puntuacion de la mano
 }Jugador;
 void limpiarPantalla() { system("clear"); }
+
 void inicializar_baraja(Baraja *baraja){
   int aux = 0;
    for (int palo = CORAZONES; palo <= PICAS; palo++){
      for (int valor = 1; valor <= 13; valor++){
-       baraja->cartas[aux].valor = valor;// Asignamos el valor de la carta
+       baraja->cartas[aux].valor = valor; // Asignamos el valor de la carta
        baraja->cartas[aux].palo = palo; // Asignamos el palo de la carta
        aux++; // Incrementamos el contador
      }
    }
   baraja->top = 51; // Inicializamos el tope del mazo 
 }
+
 void mezclar_bajara(Baraja *baraja){
   srand(time(NULL));
   for (int i = 0; i < Max_cartas; i++){
@@ -47,19 +49,23 @@ void mezclar_bajara(Baraja *baraja){
     baraja->cartas[j] = temp; // Se intercambia la carta en la posición j con la anteriormente guardada en el temp
   }
 }
+
 Carta repartir_carta(Baraja *baraja){
   return baraja->cartas[baraja->top--]; //Retorna la carta en la posición top de la baraja y luego decrementa el top
 }
+
 void mostrar_carta(Carta carta){
   const char * valores[] = {"As", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}; //Creamos todos los posibles valores 
   const char *palos[] = {"Corazones", "Diamantes", "Treboles", "Picas"}; // Creamos todos los posibles palos
   printf("%s de %s\n", valores[carta.valor - 1], palos[carta.palo]); // Mostramos la carta en pantalla
 }
+
 void mostrar_mano(Jugador jugador){
   for (int i = 0; i < jugador.num_cartas; i++){
     mostrar_carta(jugador.mano[i]);
   }
 }
+
 void calcular_puntuacion(Jugador *jugador){
   
   jugador->puntuacion = 0; // Iniciamos su puntuacion en 0
@@ -80,6 +86,7 @@ void calcular_puntuacion(Jugador *jugador){
     num_ases--; // Restamos en uno el numero de Ases
   }
 }
+
 void jugar_blackjack(){
   
   Baraja baraja; // Creamos una baraja
@@ -95,8 +102,8 @@ void jugar_blackjack(){
   crupier.puntuacion = 0; // Se inicializa la puntuacion en 0 del crupier
 
   jugador.mano[jugador.num_cartas++] = repartir_carta(&baraja); // Se reparte una carta al jugador
-  jugador.mano[jugador.num_cartas++] = repartir_carta(&baraja); // Se reparte la segunda carta al jugador
   crupier.mano[crupier.num_cartas++] = repartir_carta(&baraja); // Se reparte una carta al crupier
+  jugador.mano[jugador.num_cartas++] = repartir_carta(&baraja); // Se reparte la segunda carta al jugador
   crupier.mano[crupier.num_cartas++] = repartir_carta(&baraja); // Se reparte la segunda carta al crupier
   
   calcular_puntuacion(&jugador); //Se calcula la puntuacion del jugador 
@@ -149,7 +156,7 @@ void jugar_blackjack(){
   printf("Puntuacion: %d\n\n", crupier.puntuacion);
   if (crupier.puntuacion > 21){
     printf("*******************************************\n");
-    printf("Puntuacion del crupier = %d\n", crupier.puntuacion);
+    printf("Puntuacion del crupier %d\n", crupier.puntuacion);
     printf("El crupier se ha pasado de 21. Has ganado.\n");
     printf("*******************************************\n");
   }
@@ -178,7 +185,73 @@ void jugar_blackjack(){
   }
 }
 
+void mensaje_incio(){
+  printf(" ____    _                                         _       _                        ____                 _                     _____                            _____ \n");
+  printf("| __ )  (_)   ___   _ __   __   __   ___   _ __   (_)   __| |   ___       __ _     / ___|   __ _   ___  (_)  _ __     ___     |__  /   ___    _ __     __ _    |___ / \n");
+  printf("|  _ \\  | |  / _ \\ | '_ \\  \\ \\ / /  / _ \\ | '_ \\  | |  / _` |  / _ \\     / _` |   | |      / _` | / __| | | | '_ \\   / _ \\      / /   / _ \\  | '_ \\   / _` |     |_ \\ \n");
+  printf("| |_) | | | |  __/ | | | |  \\ V /  |  __/ | | | | | | | (_| | | (_) |   | (_| |   | |___  | (_| | \\__ \\ | | | | | | | (_) |    / /_  | (_) | | | | | | (_| |    ___) |\n");
+  printf("|____/  |_|  \\___| |_| |_|   \\_/    \\___| |_| |_| |_|  \\__,_|  \\___/     \\__,_|    \\____|  \\__,_| |___/ |_| |_| |_|  \\___/    /____|  \\___/  |_| |_|  \\__,_|   |____/ \n\n");
+}
+
+void mensaje_final(){
+  printf("   ____                         _                                                                    _         _   _           \n");
+  printf("  / ___|  _ __    __ _    ___  (_)   __ _   ___     _ __     ___    _ __     ___   _   _    __   __ (_)  ___  (_) | |_    __ _ \n");
+  printf(" | |  _  | '__|  / _` |  / __| | |  / _` | / __|   | '_ \\   / _ \\  | '__|   / __| | | | |   \\ \\ / / | | / __| | | | __|  / _` |\n");
+  printf(" | |_| | | |    | (_| | | (__  | | | (_| | \\__ \\   | |_) | | (_) | | |      \\__ \\ | |_| |    \\ V /  | | \\__ \\ | | | |_  | (_| |\n");
+  printf("  \\____| |_|     \\__,_|  \\___| |_|  \\__,_| |___/   | .__/   \\___/  |_|      |___/  \\__,_|     \\_/   |_| |___/ |_|  \\__|  \\__,_|\n");
+  printf("                                                   |_|                                                                         \n");
+}
 int main(void) {
-  jugar_blackjack();
+  mensaje_incio();
+  char nombre[50];
+  int saldo, mantener, aux;
+  char opcion;
+  mantener = 1;
+  aux = 0;
+  // Crear un mapa con el nombre y saldo de los jugadores
+  do{
+    if (aux == 0){
+      printf("Ingrese su nombre: ");
+      scanf("%s", nombre);
+      // Preguntar si está el nombre en el mapa
+      //Si no está este tiene que ingresar un saldo
+      printf("Ingrese su saldo: ");
+      scanf("%d", &saldo);
+      aux = 1;
+    }
+    //Despues de ingresar el nombre y saldo, se le pregunta si quiere jugar
+    printf("¿Cual juego desea jugar?\n");
+    printf("1. Blackjack\n");
+    printf("2. Ruleta\n");
+    printf("3. Carrera de caballos\n");
+    printf("4. Crash\n");
+    printf("5. Salir\n");
+    scanf(" %c", &opcion);
+    switch(opcion){
+      case '1':
+        limpiarPantalla();
+        jugar_blackjack();
+        break;
+      case '2':
+        
+        //jugar_ruleta();
+        break;
+      case '3':
+        
+        //jugar_carrera_caballos();
+        break;
+      case '4':
+        
+        //jugar_crash();
+        break;
+      case '5':
+        aux = 0;
+        limpiarPantalla();
+        break;
+      default:
+        printf("Opcion invalida. Intente de nuevo.\n");
+    }
+  }while(mantener);
+  mensaje_final();
   return 0;
 }
