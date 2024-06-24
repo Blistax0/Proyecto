@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
 
 #define Max_cartas 52
 
@@ -25,6 +28,10 @@ typedef struct{
   Carta mano[11]; // Mano del jugador
   int num_cartas; // Numero de cartas en la mano
   int puntuacion; // Puntuacion de la mano
+  Carta mano_split[11]; // Mano del jugador en caso de split
+  int num_cartas_split; // Numero de cartas en la mano del jugador en caso de split
+  int puntuacion_split;
+  bool split;
 }Jugador;
 void limpiarPantalla() { system("clear"); }
 
@@ -53,19 +60,191 @@ void mezclar_bajara(Baraja *baraja){
 Carta repartir_carta(Baraja *baraja){
   return baraja->cartas[baraja->top--]; //Retorna la carta en la posición top de la baraja y luego decrementa el top
 }
-
-void mostrar_carta(Carta carta){
-  const char * valores[] = {"As", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}; //Creamos todos los posibles valores 
-  const char *palos[] = {"Corazones", "Diamantes", "Treboles", "Picas"}; // Creamos todos los posibles palos
-  printf("%s de %s\n", valores[carta.valor - 1], palos[carta.palo]); // Mostramos la carta en pantalla
+void guardar_picas(Carta carta, char lineas[5][20]){
+  if (carta.valor == 1){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♠    |");
+    strcpy(lineas[2], "|  A  |");
+    strcpy(lineas[3], "|    ♠|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 11){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♠    |");
+    strcpy(lineas[2], "|  J  |");
+    strcpy(lineas[3], "|    ♠|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 12){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♠    |");
+    strcpy(lineas[2], "|  Q  |");
+    strcpy(lineas[3], "|    ♠|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 13){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♠    |");
+    strcpy(lineas[2], "|  K  |");
+    strcpy(lineas[3], "|    ♠|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else{
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♠    |");
+    sprintf(lineas[2], "| %2d  |", carta.valor);
+    strcpy(lineas[3], "|    ♠|");
+    strcpy(lineas[4], " ----- ");
+  }
 }
-
-void mostrar_mano(Jugador jugador){
-  for (int i = 0; i < jugador.num_cartas; i++){
-    mostrar_carta(jugador.mano[i]);
+void guardar_trebol(Carta carta,char lineas[5][20]){
+  if (carta.valor == 1){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♣    |");
+    strcpy(lineas[2], "|  A  |");
+    strcpy(lineas[3], "|    ♣|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 11){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♣    |");
+    strcpy(lineas[2], "|  J  |");
+    strcpy(lineas[3], "|    ♣|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 12){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♣    |");
+    strcpy(lineas[2], "|  Q  |");
+    strcpy(lineas[3], "|    ♣|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 13){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♣    |");
+    strcpy(lineas[2], "|  K  |");
+    strcpy(lineas[3], "|    ♣|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else{
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♣    |");
+    sprintf(lineas[2], "| %2d  |", carta.valor);
+    strcpy(lineas[3], "|    ♣|");
+    strcpy(lineas[4], " ----- ");
+  }
+}
+void guardar_diamante(Carta carta, char lineas[5][20]){
+  if (carta.valor == 1){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♦    |");
+    strcpy(lineas[2], "|  A  |");
+    strcpy(lineas[3], "|    ♦|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 11){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♦    |");
+    strcpy(lineas[2], "|  J  |");
+    strcpy(lineas[3], "|    ♦|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 12){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♦    |");
+    strcpy(lineas[2], "|  Q  |");
+    strcpy(lineas[3], "|    ♦|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 13){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♦    |");
+    strcpy(lineas[2], "|  K  |");
+    strcpy(lineas[3], "|    ♦|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else{
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♦    |");
+    sprintf(lineas[2], "| %2d  |", carta.valor);
+    strcpy(lineas[3], "|    ♦|");
+    strcpy(lineas[4], " ----- ");
+  }
+}
+void guardar_corazones(Carta carta, char lineas[5][20]){
+  if (carta.valor == 1){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♥    |");
+    strcpy(lineas[2], "|  A  |");
+    strcpy(lineas[3], "|    ♥|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 11){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♥    |");
+    strcpy(lineas[2], "|  J  |");
+    strcpy(lineas[3], "|    ♥|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 12){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♥    |");
+    strcpy(lineas[2], "|  Q  |");
+    strcpy(lineas[3], "|    ♥|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else if (carta.valor == 13){
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♥    |");
+    strcpy(lineas[2], "|  K  |");
+    strcpy(lineas[3], "|    ♥|");
+    strcpy(lineas[4], " ----- ");
+  }
+  else{
+    strcpy(lineas[0], " ----- ");
+    strcpy(lineas[1], "|♥    |");
+    sprintf(lineas[2], "| %2d  |", carta.valor);
+    strcpy(lineas[3], "|    ♥|");
+    strcpy(lineas[4], " ----- ");
   }
 }
 
+void guardar_carta(Carta carta, char matriz[5][20]){
+  const char * valores[] = {"As", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}; //Creamos todos los posibles valores 
+  const char *palos[] = {"Corazones", "Diamantes", "Treboles", "Picas"}; // Creamos todos los posibles palos
+  if (strcmp(palos[carta.palo], "Corazones") == 0){
+    guardar_corazones(carta, matriz);
+  }
+  else if (strcmp(palos[carta.palo], "Diamantes") == 0){
+    guardar_diamante(carta, matriz);
+  }
+  else if (strcmp(palos[carta.palo], "Treboles") == 0){
+    guardar_trebol(carta, matriz);
+  }
+  else if (strcmp(palos[carta.palo], "Picas") == 0){
+    guardar_picas(carta, matriz);
+  }
+}
+void mostrar_carta(Carta carta){
+  char matriz[5][20];
+  guardar_carta(carta, matriz);
+  for (int i = 0; i < 5; i++){
+    printf("             %s\n", matriz[i]);
+  }
+}
+void mostrar_mano(Jugador jugador){
+  char matriz_cartas[jugador.num_cartas][5][20];
+  for (int i = 0; i < jugador.num_cartas; i++){
+    guardar_carta(jugador.mano[i], matriz_cartas[i]);
+  }
+  
+  for (int l = 0; l < 5; l++) {
+      for (int c = 0; c < jugador.num_cartas; c++) {
+        printf("      %s ", matriz_cartas[c][l]);
+      }
+    printf("\n");
+  }
+}
 void calcular_puntuacion(Jugador *jugador){
   
   jugador->puntuacion = 0; // Iniciamos su puntuacion en 0
@@ -86,7 +265,78 @@ void calcular_puntuacion(Jugador *jugador){
     num_ases--; // Restamos en uno el numero de Ases
   }
 }
+/*void split(Jugador *original, Baraja *baraja){
+  if (original->num_cartas == 2 && original->mano[0].valor == original->mano[1].valor){
+    nueva->mano[0] = original->mano[1];
+    nueva->num_cartas = 1;
 
+    original->num_cartas = 1;
+
+    original->mano[1] = repartir_carta(baraja);
+    nueva->mano[1] = repartir_carta(baraja);
+
+    original->num_cartas++;
+    nueva->num_cartas++;
+
+    calcular_puntuacion(original);
+    calcular_puntuacion(nueva);
+  }
+}*/
+void pedir_carta(Jugador *jugador, Baraja *baraja){
+  limpiarPantalla();
+  jugador->mano[jugador->num_cartas++] = repartir_carta(baraja);
+  calcular_puntuacion(jugador);
+  printf("Mano del Jugador\n");
+  mostrar_mano(*jugador);
+  printf("Puntuacion: %d\n", jugador->puntuacion);
+}
+void declarar_ganador(Jugador jugador, Jugador * crupier, Baraja *baraja){
+  if (jugador.puntuacion > 21){
+    printf(" ---------------------------------\n");
+    printf("|Te has pasado de 21. Has perdido |\n");
+    printf(" ---------------------------------\n");
+    return;
+  }
+  while (crupier->puntuacion < 17) {
+     crupier->mano[crupier->num_cartas++] = repartir_carta(baraja);
+     calcular_puntuacion(crupier);
+   }
+  printf("Mano del crupier:\n");
+  mostrar_mano(*crupier);
+  printf("Puntuacion: %d\n\n", crupier->puntuacion);
+  if (crupier->puntuacion > 21){
+    printf(" -----------------------------------------\n");
+    printf("|Puntuacion del crupier %2d                |\n", crupier->puntuacion);
+    printf("|El crupier se ha pasado de 21. Has ganado|\n");
+    printf(" -----------------------------------------\n");
+  }
+  else {
+    if (crupier->puntuacion > 21 || jugador.puntuacion > crupier->puntuacion){
+      printf(" -------------------------\n");
+      printf("|Puntuacion del jugador %2d|\n", jugador.puntuacion);
+      printf("|Puntuacion del crupier %2d|\n", crupier->puntuacion);
+      printf("|       Has ganado        |\n");
+      printf(" -------------------------\n");
+    }
+    else if (jugador.puntuacion == crupier->puntuacion){
+      printf("---------------------------\n");
+      printf("|Puntuacion del jugador %2d|\n", jugador.puntuacion);
+      printf("|Puntuacion del crupier %2d|\n", crupier->puntuacion);
+      printf("|        Empate           |\n");
+      printf(" --------------------------\n");
+    }
+    else{
+      printf(" -------------------------\n");
+      printf("|Puntuacion del jugador %2d|\n", jugador.puntuacion);
+      printf("|Puntuacion del crupier %2d|\n", crupier->puntuacion);
+      printf("|      Perdiste           |\n");
+      printf(" -------------------------\n");
+    }
+  }
+}
+void doblar_pedir(Jugador *jugador, Baraja *baraja){
+  pedir_carta(jugador, baraja);
+}
 void jugar_blackjack(){
   
   Baraja baraja; // Creamos una baraja
@@ -100,7 +350,7 @@ void jugar_blackjack(){
   Jugador crupier; // Se crea un crupier
   crupier.num_cartas = 0; // Se inicializa el numero de cartas en 0 del crupier
   crupier.puntuacion = 0; // Se inicializa la puntuacion en 0 del crupier
-
+  
   jugador.mano[jugador.num_cartas++] = repartir_carta(&baraja); // Se reparte una carta al jugador
   crupier.mano[crupier.num_cartas++] = repartir_carta(&baraja); // Se reparte una carta al crupier
   jugador.mano[jugador.num_cartas++] = repartir_carta(&baraja); // Se reparte la segunda carta al jugador
@@ -109,80 +359,43 @@ void jugar_blackjack(){
   calcular_puntuacion(&jugador); //Se calcula la puntuacion del jugador 
   calcular_puntuacion(&crupier); // Se calcula la puntuacion del crupier
   
-  printf("**********************************\n");
-  printf("Bienvenido al juego de Blackjack\n");
-  printf("**********************************\n");
-  printf("Tu mano:\n");
-  mostrar_mano(jugador);// Se muestra la mano del jugador
-  printf("Puntuacion: %d\n", jugador.puntuacion); // Se muestra la puntuacion del jugador
-  printf("Carta visible del crupier: "); 
+  printf(" --------------------------------\n");
+  printf("|Bienvenido al juego de Blackjack|\n");
+  printf(" --------------------------------\n");
+  printf("   |Carta visible del crupier:|   \n");
+  printf("    --------------------------\n");
   mostrar_carta(crupier.mano[0]); // Se muestra la carta visible del crupier
   printf("\n");
+  printf("             ------- \n");
+  printf("            |Tu mano|\n");
+  printf("             ------- \n");
+  mostrar_mano(jugador);// Se muestra la mano del jugador
+  printf("          ------------- \n");
+  printf("         |Puntuacion:%2d|\n", jugador.puntuacion); // Se muestra la puntuacion del jugador
+  printf("          ------------- \n");
 
   char opcion;
   while (jugador.puntuacion < 21){
-    printf("¿Quieres otra carta? (s/n): ");
+    printf("¿Que desea hacer?\n1) Pedir carta\n2) Plantarse\n3) Doblar\n");
     scanf(" %c", &opcion);
-    while (opcion != 's' && opcion != 'n'){
-      printf("Opcion invalida. ¿Quieres otra carta? (s/n): ");
+    while (opcion != '1' && opcion != '2' && opcion != '3'){
+      printf("¿Que desea hacer?\n1) Pedir carta\n2) Plantarse\n3) Doblar\n");
       scanf(" %c", &opcion);
     }
     
-    if (opcion == 's'){
-      limpiarPantalla();
-      jugador.mano[jugador.num_cartas++] = repartir_carta(&baraja);
-      calcular_puntuacion(&jugador);
-      printf("Mano del Jugador\n");
-      mostrar_mano(jugador);
-      printf("Puntuacion: %d\n", jugador.puntuacion);
+    if (opcion == '1'){
+      pedir_carta(&jugador, &baraja);
     }
-    else{
+    else if (opcion == '2'){
       limpiarPantalla();
       break;
     }
-  }
-  if (jugador.puntuacion > 21){
-    printf("**********************************\n");
-    printf("Te has pasado de 21. Has perdido.\n");
-    printf("**********************************\n");
-    return;
-  }
-   while (crupier.puntuacion < 17) {
-     crupier.mano[crupier.num_cartas++] = repartir_carta(&baraja);
-     calcular_puntuacion(&crupier);
-   }
-  printf("Mano del crupier:\n");
-  mostrar_mano(crupier);
-  printf("Puntuacion: %d\n\n", crupier.puntuacion);
-  if (crupier.puntuacion > 21){
-    printf("*******************************************\n");
-    printf("Puntuacion del crupier %d\n", crupier.puntuacion);
-    printf("El crupier se ha pasado de 21. Has ganado.\n");
-    printf("*******************************************\n");
-  }
-  else {
-    if (crupier.puntuacion > 21 || jugador.puntuacion > crupier.puntuacion){
-      printf("***********************************\n");
-      printf("Puntuacion del jugador  %d\n", jugador.puntuacion);
-      printf("Puntuacion del crupier  %d\n", crupier.puntuacion);
-      printf("Has ganado.\n");
-      printf("***********************************\n");
-    }
-    else if (jugador.puntuacion == crupier.puntuacion){
-      printf("***********************************\n");
-      printf("Puntuacion del jugador  %d\n", jugador.puntuacion);
-      printf("Puntuacion del crupier  %d\n", crupier.puntuacion);
-      printf("Empate.\n");
-      printf("***********************************\n");
-    }
-    else{
-      printf("***********************************\n");
-      printf("Puntuacion del jugador  %d\n", jugador.puntuacion);
-      printf("Puntuacion del crupier  %d\n", crupier.puntuacion);
-      printf("Perdiste.\n");
-      printf("***********************************\n");
+    else if (opcion == '3'){
+      doblar_pedir(&jugador, &baraja);
+      break;
     }
   }
+  declarar_ganador(jugador, &crupier, &baraja);
 }
 
 void mensaje_incio(){
@@ -231,8 +444,10 @@ int main(void) {
       case '1':
         limpiarPantalla();
         jugar_blackjack();
-        printf("Quieres seguir jugando")
-        break;
+        printf("Quieres seguir jugando? (1 para si, 0 para no): ");
+        scanf("%d", &mantener);
+        if(mantener == 0)
+          break;
       case '2':
         
         //jugar_ruleta();
