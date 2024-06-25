@@ -30,8 +30,8 @@ typedef struct{
   int puntuacion; // Puntuacion de la mano
   Carta mano_split[11]; // Mano del jugador en caso de split
   int num_cartas_split; // Numero de cartas en la mano del jugador en caso de split
-  int puntuacion_split;
-  bool split;
+  int puntuacion_split; // Puntuacion de la mano en caso de split
+  bool split; // Si el jugador ha hecho split
 }Jugador;
 void limpiarPantalla() { system("clear"); }
 
@@ -245,6 +245,19 @@ void mostrar_mano(Jugador jugador){
     printf("\n");
   }
 }
+void mostrar_mano_split(Jugador jugador) {
+  char matriz_cartas[jugador.num_cartas_split][5][20];
+  for (int i = 0; i < jugador.num_cartas_split; i++){
+    guardar_carta(jugador.mano_split[i], matriz_cartas[i]);
+  }
+
+  for (int l = 0; l < 5; l++) {
+      for (int c = 0; c < jugador.num_cartas_split; c++) {
+        printf("      %s ", matriz_cartas[c][l]);
+      }
+    printf("\n");
+  }
+}
 void calcular_puntuacion(Jugador *jugador){
   
   jugador->puntuacion = 0; // Iniciamos su puntuacion en 0
@@ -265,23 +278,53 @@ void calcular_puntuacion(Jugador *jugador){
     num_ases--; // Restamos en uno el numero de Ases
   }
 }
-/*void split(Jugador *original, Baraja *baraja){
-  if (original->num_cartas == 2 && original->mano[0].valor == original->mano[1].valor){
-    nueva->mano[0] = original->mano[1];
-    nueva->num_cartas = 1;
+void calcular_puntuacion_split(Jugador * jugador){
 
-    original->num_cartas = 1;
-
-    original->mano[1] = repartir_carta(baraja);
-    nueva->mano[1] = repartir_carta(baraja);
-
-    original->num_cartas++;
-    nueva->num_cartas++;
-
-    calcular_puntuacion(original);
-    calcular_puntuacion(nueva);
+  jugador->puntuacion_split = 0; // Iniciamos su puntuacion en 0
+  int num_ases = 0; //Creamos un contador para saber cuantas cartas As tiene el jugador 
+  for (int i = 0; i < jugador->num_cartas_split; i++){
+    int valor = jugador->mano_split[i].valor; // Guardamos el valor de la carta en la posición i en la variable valor
+    if (valor == 1){ // Si el valor es 1, significa que es un As
+      num_ases++; // Incrementamos el contador de As
+      valor = 11; // Inicialmente lo tomamos con valor 11
+    }
+    else if (valor > 10){ // Si el valor es mayor a 10, significa que puede ser un J, Q o K
+      valor = 10; // Se le asigna el valor 10 a cualquiera de los anteriores
+    }
+    jugador->puntuacion_split += valor; // Sumamos el valor de la carta a la puntuacion del jugador
   }
-}*/
+  while (num_ases > 0 && jugador->puntuacion_split > 21){// Crea un bucle que se ejecuta si el número de ases es mayor que 0 y la puntuación es mayor a 21
+    jugador->puntuacion -= 10; // Utilizamos el As como 1 para no pasar de 21
+    num_ases--; // Restamos en uno el numero de Ases
+  }
+}
+void split(Jugador *jugador, Baraja *baraja){
+  if (jugador->num_cartas == 2 && jugador->mano[0].valor == jugador->mano[1].valor) {
+    jugador->mano_split[0] = jugador->mano[1];
+    jugador->num_cartas_split = 1;
+    jugador->num_cartas = 1;
+    jugador->split = true;
+
+    // Repartir una carta a cada mano
+    jugador->mano[jugador->num_cartas++] = repartir_carta(baraja);
+    jugador->mano_split[jugador->num_cartas_split++] = repartir_carta(baraja);
+
+    // Calcular puntuación para ambas manos
+    calcular_puntuacion(jugador);
+    calcular_puntuacion_split(jugador);
+
+    // Mostrar las manos
+    printf("Primera mano:\n");
+    mostrar_mano(*jugador);
+    printf("Puntuacion: %d\n", jugador->puntuacion);
+
+    printf("Segunda mano:\n");
+    mostrar_mano_split(*jugador);
+    printf("Puntuacion: %d\n", jugador->puntuacion_split);
+  } else {
+    printf("No puedes dividir esta mano.\n");
+  }
+}
 void pedir_carta(Jugador *jugador, Baraja *baraja){
   limpiarPantalla();
   jugador->mano[jugador->num_cartas++] = repartir_carta(baraja);
@@ -289,6 +332,14 @@ void pedir_carta(Jugador *jugador, Baraja *baraja){
   printf("Mano del Jugador\n");
   mostrar_mano(*jugador);
   printf("Puntuacion: %d\n", jugador->puntuacion);
+}
+void pedir_carta_split(Jugador *jugador, Baraja *baraja){
+  limpiarPantalla();
+  jugador->mano_split[jugador->num_cartas_split++]= repartir_carta(baraja);
+  calcular_puntuacion_split(jugador);
+  printf("Segunda Mano: \n");
+  mostrar_mano_split(*jugador);
+  printf("Puntuacion: %d\n", jugador->puntuacion_split);
 }
 void declarar_ganador(Jugador jugador, Jugador * crupier, Baraja *baraja){
   if (jugador.puntuacion > 21){
@@ -333,9 +384,47 @@ void declarar_ganador(Jugador jugador, Jugador * crupier, Baraja *baraja){
       printf(" -------------------------\n");
     }
   }
+  if (jugador.split) {
+    // Evaluar segunda mano
+    if (jugador.puntuacion_split > 21) {
+      printf(" ---------------------------------\n");
+      printf("|Te has pasado de 21 en la segunda mano. Has perdido |\n");
+      printf(" ---------------------------------\n");
+    } else {
+      while (crupier->puntuacion < 17) {
+        crupier->mano[crupier->num_cartas++] = repartir_carta(baraja);
+        calcular_puntuacion(crupier);
+      }
+      printf("Mano del crupier:\n");
+      mostrar_mano(*crupier);
+      printf("Puntuacion: %d\n\n", crupier->puntuacion);
+      if (crupier->puntuacion > 21 || jugador.puntuacion_split > crupier->puntuacion) {
+        printf(" -------------------------\n");
+        printf("|Puntuacion del jugador en la segunda mano %2d|\n", jugador.puntuacion_split);
+        printf("|Puntuacion del crupier %2d|\n", crupier->puntuacion);
+        printf("|       Has ganado        |\n");
+        printf(" -------------------------\n");
+      } else if (jugador.puntuacion_split == crupier->puntuacion) {
+        printf(" ---------------------------\n");
+        printf("|Puntuacion del jugador en la segunda mano %2d|\n", jugador.puntuacion_split);
+        printf("|Puntuacion del crupier %2d|\n", crupier->puntuacion);
+        printf("|        Empate           |\n");
+        printf(" --------------------------\n");
+      } else {
+        printf(" -------------------------\n");
+        printf("|Puntuacion del jugador en la segunda mano %2d|\n", jugador.puntuacion_split);
+        printf("|Puntuacion del crupier %2d|\n", crupier->puntuacion);
+        printf("|      Perdiste           |\n");
+        printf(" -------------------------\n");
+      }
+    }
+  }
 }
 void doblar_pedir(Jugador *jugador, Baraja *baraja){
   pedir_carta(jugador, baraja);
+}
+void doblar_pedir_split(Jugador *jugador, Baraja *baraja){
+  pedir_carta_split(jugador, baraja);
 }
 void jugar_blackjack(){
   
@@ -375,23 +464,55 @@ void jugar_blackjack(){
   printf("          ------------- \n");
 
   char opcion;
-  while (jugador.puntuacion < 21){
-    printf("¿Que desea hacer?\n1) Pedir carta\n2) Plantarse\n3) Doblar\n");
+  while (jugador.puntuacion < 21) {
+    printf("¿Que desea hacer?\n1) Pedir carta\n2) Plantarse\n3) Doblar\n4) Dividir (split)\n");
     scanf(" %c", &opcion);
-    while (opcion != '1' && opcion != '2' && opcion != '3'){
-      printf("¿Que desea hacer?\n1) Pedir carta\n2) Plantarse\n3) Doblar\n");
+    while (opcion != '1' && opcion != '2' && opcion != '3' && opcion != '4') {
+      printf("¿Que desea hacer?\n1) Pedir carta\n2) Plantarse\n3) Doblar\n4) Dividir (split)\n");
       scanf(" %c", &opcion);
     }
-    
-    if (opcion == '1'){
+
+    if (opcion == '1') {
       pedir_carta(&jugador, &baraja);
-    }
-    else if (opcion == '2'){
+    } else if (opcion == '2') {
       limpiarPantalla();
       break;
-    }
-    else if (opcion == '3'){
+    } else if (opcion == '3') {
       doblar_pedir(&jugador, &baraja);
+      break;
+    } else if (opcion == '4') {
+      split(&jugador, &baraja);
+      // Permitir al jugador jugar ambas manos
+      while (jugador.puntuacion < 21) {
+        printf("Primera mano:\n");
+        mostrar_mano(jugador);
+        printf("¿Que desea hacer para la primera mano?\n1) Pedir carta\n2) Plantarse\n3) Doblar\n");
+        scanf(" %c", &opcion);
+        if (opcion == '1') {
+          pedir_carta(&jugador, &baraja);
+        } else if (opcion == '2') {
+          limpiarPantalla();
+          break;
+        } else if (opcion == '3') {
+          doblar_pedir(&jugador, &baraja);
+          break;
+        }
+      }
+      while (jugador.puntuacion_split < 21) {
+        printf("Segunda mano:\n");
+        mostrar_mano_split(jugador);
+        printf("¿Que desea hacer para la segunda mano?\n1) Pedir carta\n2) Plantarse\n3) Doblar\n");
+        scanf(" %c", &opcion);
+        if (opcion == '1') {
+          pedir_carta_split(&jugador, &baraja);
+        } else if (opcion == '2') {
+          limpiarPantalla();
+          break;
+        } else if (opcion == '3') {
+          doblar_pedir_split(&jugador, &baraja);
+          break;
+        }
+      }
       break;
     }
   }
@@ -433,6 +554,7 @@ int main(void) {
       aux = 1;
     }
     //Despues de ingresar el nombre y saldo, se le pregunta si quiere jugar
+    limpiarPantalla();
     printf("¿Cual juego desea jugar?\n");
     printf("1. Blackjack\n");
     printf("2. Ruleta\n");
