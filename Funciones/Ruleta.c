@@ -115,9 +115,9 @@ void print_mesa_apuesta() {
     printf("3. Apostar Negro\n");
     printf("4. Apostar Par        | ");
     printf("5. Apostar Impar\n");
-    printf("6. Apostar en 1st 12  | ");
-    printf("7. Apostar en 2nd 12  | ");
-    printf("8. Apostar en 3rd 12\n");
+    printf("6. Apostar en 1ra 12  | ");
+    printf("7. Apostar en 2da 12  | ");
+    printf("8. Apostar en 3ra 12\n");
     printf("9. Apostar en 1-18    | ");
     printf("10. Apostar en 19-36\n");
     printf("=================================================\n");
@@ -189,7 +189,6 @@ void elegir_apuesta(int* apuestas, int* valores, int num_apuestas, Ruleta_slot r
                 if (resultado.numero >= 19 && resultado.numero <= 36) win = 1;
                 break;
             default:
-                printf("Apuesta inválida\n");
                 break;
         }
         if (win) {

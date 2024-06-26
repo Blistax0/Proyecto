@@ -7,6 +7,8 @@ typedef enum {
     PICAS 
 } Palo;
 
+typedef struct Apostador Apostador;
+
 typedef struct Carta Carta;
 
 typedef struct Baraja Baraja;
@@ -28,9 +30,9 @@ void calcular_puntuacion_split(Jugador * jugador);
 void split(Jugador *jugador, Baraja *baraja);
 void pedir_carta(Jugador *jugador, Baraja *baraja);
 void pedir_carta_split(Jugador *jugador, Baraja *baraja);
-void declarar_ganador(Jugador jugador, Jugador * crupier, Baraja *baraja);
-void doblar_pedir(Jugador *jugador, Baraja *baraja);
+void declarar_ganador(Jugador jugador, Jugador * crupier, Baraja *baraja, int * saldo, int apuesta);
+void doblar_pedir(Jugador *jugador, Baraja *baraja, int * saldo, int apuesta);
 void doblar_pedir_split(Jugador *jugador, Baraja *baraja);
-void jugar_blackjack();
+int jugar_blackjack(int * saldo);
 
 #endif
