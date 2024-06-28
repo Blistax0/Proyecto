@@ -355,6 +355,13 @@ void declarar_ganador(Jugador jugador, Jugador *crupier, Baraja *baraja, int *sa
     printf(" ---------------------------------\n");
     return;
   }
+  else if (jugador.puntuacion == 21 && jugador.num_cartas == 2){
+    printf(" ---------------------------------\n");
+    printf("|¡Felicidades! Has ganado con 21 |\n");
+    printf(" ---------------------------------\n");
+    *saldo += apuesta * 2.5;
+    return;
+  }
   while (crupier->puntuacion < 17) {
     crupier->mano[crupier->num_cartas++] = repartir_carta(baraja);
     calcular_puntuacion(crupier);
@@ -394,7 +401,8 @@ void declarar_ganador(Jugador jugador, Jugador *crupier, Baraja *baraja, int *sa
       printf(" -------------------------\n");
     }
   }
-  if (jugador.split) {
+  if (jugador.split) 
+  {
     // Evaluar segunda mano
     if (jugador.puntuacion_split > 21) {
       printf(" ---------------------------------\n");
@@ -438,14 +446,52 @@ void doblar_pedir(Jugador *jugador, Baraja *baraja, int * saldo, int apuesta){
     pedir_carta(jugador, baraja);
   }
 }
-void doblar_pedir_split(Jugador *jugador, Baraja *baraja){
-  pedir_carta_split(jugador, baraja);
+void doblar_pedir_split(Jugador *jugador, Baraja *baraja, int * saldo, int apuesta){
+  if (*saldo > apuesta){
+    *saldo -= apuesta;
+    apuesta*= 2;
+    pedir_carta_split(jugador, baraja);
+  }
 }
 int jugar_blackjack(int * saldo){
 
+  int opcion;
   printf(" --------------------------------\n");
   printf("|Bienvenido al juego de Blackjack|\n");
   printf(" --------------------------------\n");
+  printf("|Desea saber las reglas?        |\n");
+  printf("|1. Si                          |\n");
+  printf("|2. No                          |\n");
+  printf(" ------------------------------- \n");
+  scanf("%d", &opcion);
+  switch(opcion){
+    case 1:
+      limpiarPantalla();
+      printf(" ----------------------------------------------------------------------------------------------------\n");
+      printf("|Las reglas son las siguientes:                                                                      |\n");
+      printf("|1. Al jugador se le entregaran 2 cartas.                                                            |\n");
+      printf("|2. Al Crupier se le entregaran 2 cartas. Solo una es visible                                        |\n");
+      printf("|3. El objetivo del juego es tener una puntuacion lo más cercana posible a 21 sin pasarse.           |\n");
+      printf("|4. Si el jugador tiene un As, puede tomarlo como un 1 o como un 11.                                 |\n");
+      printf("|5. Si el jugador tiene dos As, el segundo As se toma como un 1.                                     |\n");
+      printf("|6. Si el jugador tiene un As y un 10, gana directamente.                                            |\n");
+      printf("|7. Si el crupier supera los 21, el jugador gana.                                                    |\n");
+      printf("|8. Las cartas J, Q y K valen 10.                                                                    |\n");
+      printf("|9. Se puede utilizar la opcion de doblar y pedir solo si tiene el saldo necesario                   |\n");
+      printf("|10. Se puede utilizar la opcion de dividir manos si tiene el saldo necesario                        |\n");
+      printf("|11. En caso de que se seleccione una de estas opciones y no sea posible, sera tomado como quedarse. |\n");
+      printf(" ----------------------------------------------------------------------------------------------------\n");
+      printf("|Presione enter para continuar...                                                                    |\n");
+      printf(" ----------------------------------------------------------------------------------------------------\n");
+      getchar();
+      getchar();
+
+      break;
+    case 2:
+      break;
+  }
+  limpiarPantalla();
+  printf("Su saldo actual es de %d\n", *saldo);
   printf("Cuanto desea apostar?\n");
   int apuesta;
   scanf("%d", &apuesta);
@@ -538,7 +584,7 @@ int jugar_blackjack(int * saldo){
             limpiarPantalla();
             break;
           } else if (opcion == '3') {
-            doblar_pedir_split(&jugador, &baraja);
+            doblar_pedir_split(&jugador, &baraja, saldo, apuesta);
             break;
           }
         }

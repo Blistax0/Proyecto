@@ -9,6 +9,7 @@
 #include "Mapas/map.h"
 #include "Mapas/Jugador.h"
 #include "Funciones/Crash.h"
+#include "Funciones/CarreraCaballos.h"
 
 typedef struct Apostador{
   char nombre[50];
@@ -83,6 +84,7 @@ int main(void) {
           printf("Ingrese el monto a modificar: ");
           scanf("%d", &dinero_ingresado);
           modificarJugador(Mapa_Jugadores, nombre, dinero_ingresado);
+          guardarDatos(Mapa_Jugadores);
         }
       }
       else{
@@ -108,7 +110,7 @@ int main(void) {
         modificarSaldo(Mapa_Jugadores, nombre, saldo);
         guardarDatos(Mapa_Jugadores);  // Guardar cambios en el archivo
         printf("Quieres seguir jugando? (1 para si, 0 para no): ");
-        scanf("%d", &mantener);
+        scanf(" %d", &mantener);
         if(mantener == 0)
           break;
         saldo = player->dinero;
@@ -118,11 +120,18 @@ int main(void) {
         break;
       case '3':
         
-        //jugar_carrera_caballos();
+        carrera();
         break;
       case '4':
-        //reglasCrash();
-        crash();
+        reglasCrash();
+        crash(&saldo);
+        modificarSaldo(Mapa_Jugadores, nombre, saldo);
+        guardarDatos(Mapa_Jugadores);
+        printf("Quieres seguir jugando? (1 para si, 0 para no): ");
+        scanf(" %d", &mantener);
+        if(mantener == 0)
+          break;
+        saldo = player->dinero;
         break;
       case '5':
         aux = 0;

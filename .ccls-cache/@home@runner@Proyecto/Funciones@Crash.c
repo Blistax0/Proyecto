@@ -206,7 +206,7 @@ void explosion()
 }
 
 // Juego crash
-void crash() 
+void crash(int *saldo) 
 {
   srand(time(NULL)); 
   float maximo = numeroMax();
@@ -214,12 +214,26 @@ void crash()
   float retirada = numero; 
   int retiro = 0;
   int cont = 1;
+  int apuesta;
 
+  printf("¡Bienvenido al juego de Crash!\n");
+  printf("Tu saldo actual es: $%d\n", *saldo);
+  printf("Ingresa la cantidad que deseas apostar: ");
+  scanf("%d", &apuesta);
+  if (apuesta > *saldo)
+  {
+    printf("No tienes suficiente saldo para realizar esta apuesta.\n");
+    return;
+  }
+  *saldo -= apuesta;
+  printf("Iniciando juego...\n");
+  usleep(2000000);
+  
   pthread_mutex_init(&inputMutex, NULL);
 
   pthread_t inputThread;
   pthread_create(&inputThread, NULL, handleInput, NULL);
-
+  
   // Display the initial state before the loop
   limpiarPantalla();
   mostrarAvion(cont);
@@ -269,21 +283,23 @@ void crash()
   else 
   {
     printf("Ganaste con un multiplicador de %.2f\n", retirada);
+    *saldo = *saldo + (apuesta * retirada);
   }
-  printf("Quieres seguir jugando? (s/n): ");
+  printf("Tu saldo actual es: $%d\n", *saldo);
+  /*printf("Quieres seguir jugando? (s/n): ");
   char respuesta;
   do
   {
     scanf(" %c", &respuesta);
     if (respuesta == 's' || respuesta == 'S')
-      crash();
+      crash(saldo);
     else if (respuesta == 'n' || respuesta == 'N')
       return;
     printf("Respuesta invalida. Ingrese su respuesta de nuevo: ");
-  } while (respuesta != 's' && respuesta != 'S' && respuesta != 'n' && respuesta != 'N');
+  } while (respuesta != 's' && respuesta != 'S' && respuesta != 'n' && respuesta != 'N');*/
 }
 
-/*void reglasCrash()
+void reglasCrash()
 {
   printf("¿Deseas leer las reglas? (s/n) \n");
   char respuesta;
@@ -293,10 +309,12 @@ void crash()
     if (respuesta == 's' || respuesta == 'S')
     {
       printf("Reglas del juego:\n");
-      printf("El juego consiste en un avión que se mueve mientras que
-     }
+      printf("El juego consiste en un avión que se mueve mientras que un multiplicador va aumentando. La idea es retirar el multiplicador antes de que el avión explote.\n");
+      printf("Presione cualquier tecla para continuar.\n");
+      return;
+    }
     else if (respuesta == 'n' || respuesta == 'N')
       return;
     printf("Respuesta invalida. Ingrese su respuesta de nuevo: ");
   } while (respuesta != 's' && respuesta != 'S' && respuesta != 'n' && respuesta != 'N');
-}*/
+}
