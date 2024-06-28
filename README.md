@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este programa simula la experiencia de juego de un casino real, permitiendo a los usuarios elegir entre 4 juegos de azar, siendo estos la carrera de caballos, la ruleta, el crash y el blackjack. Cada juego esta pensando de tal manera que sea una experiencia atractiva y lo mas similar posible a la de un casino online.
+Este programa simula la experiencia de juego de un casino real, permitiendo a los usuarios elegir entre 4 juegos de azar, siendo estos la carrera de caballos, la ruleta, el crash y el blackjack. Cada juego esta pensando de tal manera que sea una experiencia atractiva y lo más similar posible a la de un casino online.
 
 ## Cómo compilar y ejecutar
 
@@ -17,10 +17,10 @@ Dado que el sistema está diseñado para ser accesible y de fácil utilizacion, 
 
 ### Funcionando correctamente:
 
-- A
-- B
-- C
-- D
+- Blackjack.
+- Carrera de caballos.
+- Crash.
+- Ruleta.
 
 ### Problemas conocidos:
 
@@ -36,11 +36,28 @@ Dado que el sistema está diseñado para ser accesible y de fácil utilizacion, 
 - C
 - D
 
-## Descripcion de las diversas funciones
+## Descripcion de las diversas funciones 
 
-Primero 
+### **Inicio del programa**
 
-**Opcion 1: **
+Primero se muestra el nombre del casino, como tambien si es que los usuarios se han leido correctamente. Se pide el nombre al usuario y se lee el archivo de [jugadores](Jugadores.csv). 
+
+**Caso 1**
+
+En el caso de que se encuentre el nombre, se le informa al usuario y se muestra el saldo actual. Se le pregunta al usuario si es que se desea modificar el saldo, en donde si el usuario lo encuentre oportuno, se ingresara el saldo, en caso contrario se muestra el menu principal.
+
+```
+Jugador encontrado. Saldo Actual: 10100
+Desea modificar su saldo? (s/n): s
+Ingrese el monto a modificar: 2000
+```
+
+**Caso 2**
+
+En el caso de que el jugadore
+
+
+### **Opcion 1**
 
 Estado inicial:
 

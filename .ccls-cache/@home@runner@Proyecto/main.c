@@ -4,10 +4,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
-#include "Funciones/Ruleta.h"
-#include "Funciones/BlackJack.h"
 #include "Mapas/map.h"
 #include "Mapas/Jugador.h"
+#include "Funciones/Ruleta.h"
+#include "Funciones/BlackJack.h"
 #include "Funciones/Crash.h"
 #include "Funciones/CarreraCaballos.h"
 
@@ -32,12 +32,15 @@ void guardarDatos(Map *map) {
 
   fclose(file);
 }
+
 int is_equal_str(void *key1, void *key2) {
   return strcmp((char *)key1, (char *)key2) == 0;
 }
+
 int is_equal_int(void *key1, void *key2) {
   return *(int *)key1 == *(int *)key2; // Compara valores enteros directamente
 }
+
 void mensaje_incio(){
   printf(" ____    _                                         _       _                        ____                 _                     _____                            _____ \n");
   printf("| __ )  (_)   ___   _ __   __   __   ___   _ __   (_)   __| |   ___       __ _     / ___|   __ _   ___  (_)  _ __     ___     |__  /   ___    _ __     __ _    |___ / \n");
@@ -45,6 +48,7 @@ void mensaje_incio(){
   printf("| |_) | | | |  __/ | | | |  \\ V /  |  __/ | | | | | | | (_| | | (_) |   | (_| |   | |___  | (_| | \\__ \\ | | | | | | | (_) |    / /_  | (_) | | | | | | (_| |    ___) |\n");
   printf("|____/  |_|  \\___| |_| |_|   \\_/    \\___| |_| |_| |_|  \\__,_|  \\___/     \\__,_|    \\____|  \\__,_| |___/ |_| |_| |_|  \\___/    /____|  \\___/  |_| |_|  \\__,_|   |____/ \n\n");
 }
+
 void mensaje_final(){
   printf("   ____                         _                                                                    _         _   _           \n");
   printf("  / ___|  _ __    __ _    ___  (_)   __ _   ___     _ __     ___    _ __     ___   _   _    __   __ (_)  ___  (_) | |_    __ _ \n");
@@ -64,6 +68,7 @@ int main(void) {
   int saldo, mantener, aux, dinero_ingresado;
   char opcion;
   Apostador *player;
+  //List *historialCrash = list_create();
   
   mantener = 1;
   aux = 0;
@@ -88,7 +93,7 @@ int main(void) {
         }
       }
       else{
-        printf("Jugador no encontrado. Registre un nuevo jugador\n.");
+        printf("Jugador no encontrado. Registre un nuevo jugador.\n");
         registrarJugador(Mapa_Jugadores);
       }
       aux = 1;
@@ -116,15 +121,23 @@ int main(void) {
         saldo = player->dinero;
       case '2':
         if (opcion == '2')
-          Ruleta_Main();
+          Ruleta_Main(&saldo);
+          player->dinero = saldo;
+          modificarSaldo(Mapa_Jugadores, nombre, saldo);
+          guardarDatos(Mapa_Jugadores);
         break;
       case '3':
         
         carrera();
         break;
       case '4':
+        limpiarPantalla();
         reglasCrash();
+        limpiarPantalla();
         crash(&saldo);
+        //int diff = saldo - player->dinero;
+        //list_pushBack(historialCrash, &diff);
+        player->dinero = saldo;
         modificarSaldo(Mapa_Jugadores, nombre, saldo);
         guardarDatos(Mapa_Jugadores);
         printf("Quieres seguir jugando? (1 para si, 0 para no): ");

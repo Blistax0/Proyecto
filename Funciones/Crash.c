@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "Crash.h"
+#include "TDAs/list.h"
 
 int inputReceived = 0; // Flag to indicate input has been received
 pthread_mutex_t inputMutex; // Mutex for thread synchronization
@@ -206,7 +207,7 @@ void explosion()
 }
 
 // Juego crash
-void crash(int *saldo) 
+void crash(int *saldo)
 {
   srand(time(NULL)); 
   float maximo = numeroMax();
@@ -286,17 +287,6 @@ void crash(int *saldo)
     *saldo = *saldo + (apuesta * retirada);
   }
   printf("Tu saldo actual es: $%d\n", *saldo);
-  /*printf("Quieres seguir jugando? (s/n): ");
-  char respuesta;
-  do
-  {
-    scanf(" %c", &respuesta);
-    if (respuesta == 's' || respuesta == 'S')
-      crash(saldo);
-    else if (respuesta == 'n' || respuesta == 'N')
-      return;
-    printf("Respuesta invalida. Ingrese su respuesta de nuevo: ");
-  } while (respuesta != 's' && respuesta != 'S' && respuesta != 'n' && respuesta != 'N');*/
 }
 
 void reglasCrash()

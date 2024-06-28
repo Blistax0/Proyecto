@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include "CarreraCaballos.h"
 
 #define NUM_CABALLOS 6
-#define DISTANCIA_META 50
 
 void mostrarMenu() {
     printf("====================================\n");
@@ -18,9 +18,9 @@ void mostrarMenu() {
 void mostrarProgreso(int posiciones[]) {
     system("clear");  
 
-    printf("====================================\n");
-    printf("         Carrera en curso        \n");
-    printf("====================================\n");
+    printf("=========================================================\n");
+    printf("                    Carrera en curso                     \n");
+    printf("=========================================================\n");
 
     for (int i = 0; i < NUM_CABALLOS; i++) {
         printf("Caballo %d: ", i + 1);
@@ -29,26 +29,27 @@ void mostrarProgreso(int posiciones[]) {
         }
         printf("🏇\n");
     }
-    printf("====================================\n");
+    printf("=========================================================\n");
 }
 
 void iniciarCarrera(int apuestaCaballo, int montoApuesta) {
     int posiciones[NUM_CABALLOS] = {0};  // Inicializa todas las posiciones en 0
     int carreraTerminada = 0;
+    int distanciaMax = 50;
 
     printf("\nIniciando carrera...\n");
 
     while (!carreraTerminada) {
         for (int i = 0; i < NUM_CABALLOS; i++) {
-            posiciones[i] += rand() % 3;  // Cada caballo avanza entre 0 y 2 posiciones
-            if (posiciones[i] >= DISTANCIA_META) {
+            posiciones[i] += rand() % (3 - 1 + 1) + 1;
+            if (posiciones[i] >= distanciaMax) {
                 carreraTerminada = 1;
             }
         }
 
         mostrarProgreso(posiciones);
 
-        usleep(500000);
+        usleep(1000000);
     }
 
     int ganador = 0;
