@@ -4,8 +4,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "Mapas/map.h"
 #include "Mapas/Jugador.h"
+#include "Mapas/list.h"
 #include "Funciones/Ruleta.h"
 #include "Funciones/BlackJack.h"
 #include "Funciones/Crash.h"
@@ -68,7 +70,7 @@ int main(void) {
   int saldo, mantener, aux, dinero_ingresado;
   char opcion;
   Apostador *player;
-  //List *historialCrash = list_create();
+  List *historialCrash = list_create();
   
   mantener = 1;
   aux = 0;
@@ -93,13 +95,17 @@ int main(void) {
         }
       }
       else{
-        printf("Jugador no encontrado. Registre un nuevo jugador.\n");
+        printf("Jugador no encontrado, registre un nuevo jugador.\n");
         registrarJugador(Mapa_Jugadores);
+        sleep(3);
       }
       aux = 1;
     }
     //Despues de ingresar el nombre y saldo, se le pregunta si quiere jugar
     limpiarPantalla();
+    printf("==================================\n\n");
+    printf("    Bienvenido a Casino Zona 3    \n\n");
+    printf("==================================\n\n");
     printf("¿Cual juego desea jugar?\n");
     printf("1. Blackjack\n");
     printf("2. Ruleta\n");
@@ -110,7 +116,7 @@ int main(void) {
     switch(opcion){
       case '1':
         limpiarPantalla();
-        int diferencia = jugar_blackjack(&saldo);
+        jugar_blackjack(&saldo);
         player->dinero = saldo;
         modificarSaldo(Mapa_Jugadores, nombre, saldo);
         guardarDatos(Mapa_Jugadores);  // Guardar cambios en el archivo
@@ -127,25 +133,40 @@ int main(void) {
           guardarDatos(Mapa_Jugadores);
         break;
       case '3':
-        
         carrera();
         break;
       case '4':
+        mantener = 1;
         limpiarPantalla();
         reglasCrash();
         limpiarPantalla();
         crash(&saldo);
-        //int diff = saldo - player->dinero;
-        //list_pushBack(historialCrash, &diff);
+        int diff = saldo - player->dinero;
+        list_pushBack(historialCrash, &diff);
         player->dinero = saldo;
         modificarSaldo(Mapa_Jugadores, nombre, saldo);
         guardarDatos(Mapa_Jugadores);
+        printf("Historial de partidas: \n");
+        List *aux = list_first(historialCrash);
+        printf("%d", *(int*)aux);
+        while (aux != NULL)
+        {
+          if (*(int*)aux > 0)
+            printf("+%d\n", *(int*)aux);
+          else
+            printf("%d\n", *(int*)aux);
+          aux = list_next(historialCrash);
+        }
+        printf("\n");
+        
         printf("Quieres seguir jugando? (1 para si, 0 para no): ");
-        scanf(" %d", &mantener);
-        if(mantener == 0)
-          break;
+        if (scanf(" %d", &mantener) != 1) {
+            while (getchar() != '\n'); // Limpiar el búfer de entrada
+            mantener = 0; // En caso de entrada no válida, detener el juego
+            break;
+        }
         saldo = player->dinero;
-        break;
+        //break;
       case '5':
         aux = 0;
         limpiarPantalla();
@@ -155,5 +176,6 @@ int main(void) {
     }
   }while(mantener);
   mensaje_final();
+  list_clean(historialCrash);
   return 0;
 }

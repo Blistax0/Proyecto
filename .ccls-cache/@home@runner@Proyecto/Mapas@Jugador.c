@@ -83,10 +83,10 @@ void guardarJugadorUnico(Jugador *jugador) {
 void registrarJugador(Map* Jugadores) {
     char nombre[MAX_NOMBRE];
     int money;
-    printf("\nIngrese su nombre: ");
+    printf("Ingrese su nombre: ");
     scanf("%s", nombre);
     if (map_search(Jugadores, nombre)) {
-        printf("El jugador ya existe\n");
+        printf("El jugador ya existe. (Espere 3 segundos...)\n");
         return;
     }
     printf("Ingrese su dinero: ");
@@ -100,7 +100,7 @@ void registrarJugador(Map* Jugadores) {
     map_insert(Jugadores, strdup(nuevo_jugador->nombre), nuevo_jugador);
 
     guardarJugadorUnico(nuevo_jugador); // Guardar el jugador recién registrado
-    printf("Jugador registrado exitosamente\n");
+    printf("Jugador registrado exitosamente. (Espere 3 segundos...)\n");
 }
 
 void guardarTodosJugadores(Map* Jugadores) {

@@ -33,6 +33,6 @@ void pedir_carta_split(Jugador *jugador, Baraja *baraja);
 void declarar_ganador(Jugador jugador, Jugador * crupier, Baraja *baraja, int * saldo, int apuesta);
 void doblar_pedir(Jugador *jugador, Baraja *baraja, int * saldo, int apuesta);
 void doblar_pedir_split(Jugador *jugador, Baraja *baraja, int * saldo, int apuesta);
-int jugar_blackjack(int * saldo);
+void jugar_blackjack(int * saldo);
 
 #endif

@@ -26,9 +26,10 @@ void reglas();
 //Funcion para mostrar el menu
 int tu_apuesta();
 //Funcion para mostrar el tipo de apuestas, y saber si ganaste o no
-void elegir_apuesta(int* apuestas, int* valores, int num_apuestas, Ruleta_slot resultado);
+void elegir_apuesta(int* apuestas, int* valores, int num_apuestas, Ruleta_slot resultado, int *cantidad_dinero, int * saldo);
 //Funcion para obetener solo el numero de la ruleta, esto es necesario para la funcion elegir apuesta
+int obtener_cantidad_dinero(int * saldo);
 int obtener_numero(int tipo_de_apuesta);
 //Funcion Principal de la ruleta que contiene todo.
-void Ruleta_Main();
+void Ruleta_Main(int * saldo);
 #endif

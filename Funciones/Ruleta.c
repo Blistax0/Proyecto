@@ -131,7 +131,7 @@ void reglas() {
     printf(" -> Si el numero ganador es igual al numero apostado, se multiplica por 35\n");
     printf(" -> Si el numero ganador es igual al color apostado, se multiplica por 1\n");
     printf(" -> Si el numero ganador es igual al par o impar apostado, se multiplica por 1\n");
-    printf(" -> Si el numero ganador esta en el primer, segundo o tercer cuartil, se multiplica por 2\n");
+    printf(" -> Si el numero ganador esta en el primer, segundo o tercer docena, se multiplica por 2\n");
     printf(" -> Si el numero ganador esta entre 1 y 18, se multiplica por 2\n");
     printf(" -> Si el numero ganador esta entre 19 y 36, se multiplica por 2\n");
 }
@@ -147,8 +147,9 @@ int tu_apuesta() {
 
 Falta ingresar el dinero que se aposto y el numero que se aposto
 */
-void elegir_apuesta(int* apuestas, int* valores, int num_apuestas, Ruleta_slot resultado) {
+void elegir_apuesta(int* apuestas, int* valores, int num_apuestas, Ruleta_slot resultado, int *cantidad_dinero, int * saldo) {
     int win = 0;
+    int ganancias = 0;
     for (int i = 0; i < num_apuestas; i++) {
         printf("=================================================\n");
         switch (apuestas[i]) {
@@ -198,11 +199,49 @@ void elegir_apuesta(int* apuestas, int* valores, int num_apuestas, Ruleta_slot r
         }
         if (win) {
             printf("Felicidades, ganaste!\n");
-        } else {
+            switch (apuestas[i]){
+                case 1: //Numero
+                    ganancias += cantidad_dinero[i] * 35; break;
+                case 2: // Rojo
+                    ganancias += cantidad_dinero[i] * 2 ; break;
+                case 3: // Negro
+                    ganancias += cantidad_dinero[i] * 2; break;
+                case 4: // Par
+                    ganancias += cantidad_dinero[i] * 2; break;
+                case 5: // Impar
+                    ganancias += cantidad_dinero[i] * 2; break;
+                case 6: // 1ra 12
+                    ganancias += cantidad_dinero[i] * 3; break;
+                case 7: // Segunda 12
+                    ganancias += cantidad_dinero[i] * 3; break;
+                case 8: // Tercer 12
+                    ganancias += cantidad_dinero[i] * 3; break;
+                case 9: // 1-18
+                    ganancias += cantidad_dinero[i] * 3; break;
+                case 10: // 19-36
+                    ganancias += cantidad_dinero[i] * 3; break;
+                }
+                printf("Ganaste %d\n", ganancias);
+                *saldo += ganancias;
+        } 
+    else 
+        {
             printf("Lo siento, perdiste. El número ganador era %d (%s).\n", resultado.numero, resultado.color);
+            *saldo -= cantidad_dinero[i];
         }
     }
 }
+
+int obtener_cantidad_dinero(int * saldo){
+    int cantidad_apuestass;
+    printf("Ingrese el dinero que desea apostar: ");
+    scanf("%d", &cantidad_apuestass);
+    if (cantidad_apuestass > *saldo){
+        printf("No tienes suficiente saldo para realizar esa cantidad de apuestas.\n");
+    }
+    return cantidad_apuestass;
+}
+
 //Aca el usuario ingresa el numero que quiere apostar, esto es importante para la funcion elegir apuesta la opcion 1.
 int obtener_numero(int tipo_de_apuesta) {
     int valor_apuesta = -1;
@@ -213,17 +252,17 @@ int obtener_numero(int tipo_de_apuesta) {
     return valor_apuesta;    
 }
 //Funcion main para que funcione el juego
-void Ruleta_Main() {
+void Ruleta_Main(int * saldo) {
     Ruleta_slot ruleta[Ruleta_max]; //ruleta 
     inicializar_ruleta(ruleta);//inicializar la ruleta
     srand(time(NULL));//generar numeros aleatorios
     ListaResultados lista;//lista de resultados
     ini_lista(&lista);//inicializar la lista de resultados
 
-    int seguir_jugando = 1; //opcion para seguir jugando
+    //int seguir_jugando = 1; //opcion para seguir jugando
     
     // Opcion que tiene el jugador para ver si quiere seguir jugando
-    while (seguir_jugando) {
+    //while (seguir_jugando) {
         int opcion = 0;
         printf("Antes de jugar quieres saber las reglas: (1: SI | 2: NO): ");
         scanf("%d", &opcion);
@@ -240,12 +279,17 @@ void Ruleta_Main() {
         int num_apuestas = 0; // cantidad de apuestas
         int apuestas[1]; // lista con apuestas max 10
         int valores[20];// lista con valores max 20
+        int cantidad_dinero[20]; // cantidad  max 20
         char continuar = 's';
 
         while (continuar == 's' || continuar == 'S') {
-            apuestas[num_apuestas] = tu_apuesta(); // elegir tipo de apuesta
+            apuestas[num_apuestas] = tu_apuesta(); // elegir numero
             valores[num_apuestas] = obtener_numero(apuestas[num_apuestas]);// elegir valor de apuesta
+            cantidad_dinero[num_apuestas] = obtener_cantidad_dinero(saldo);
             num_apuestas++;// aumentar la cantidad de apuestas
+    
+            *saldo -= cantidad_dinero[num_apuestas];
+            
             printf("¿Quieres hacer otra apuesta? (s/n): "); // opcion para seguir haciendo apuestas
             scanf(" %c", &continuar);// leer la opcion
         }
@@ -253,18 +297,21 @@ void Ruleta_Main() {
         Ruleta_slot resultado = girar_ruleta(ruleta, Ruleta_max);//girar la ruleta y recibe el resultado generado aleatoriamente
         animacion_girar(ruleta, Ruleta_max, resultado.numero);//animacion de la ruleta
         system("clear");
-
+        
         printf("Resultado del lanzamiento: %d (%s)\n", resultado.numero, resultado.color);
 
-        elegir_apuesta(apuestas, valores, num_apuestas, resultado);//elegir apuesta y ver si gana o pierde
+        elegir_apuesta(apuestas, valores, num_apuestas, resultado, cantidad_dinero, saldo);//elegir apuesta y ver si gana o pierde
 
         agregar_resultado(&lista, resultado); //agregar resultado a la lista de resultados
         imprimir_lista(&lista);//imprimir la lista de resultados
 
-        printf("¿Quieres seguir jugando? (1: SI | 0: NO): ");//opcion para seguir jugando
-        scanf("%d", &seguir_jugando);
+        //printf("¿Quieres seguir jugando? (1: SI | 0: NO): ");//opcion para seguir jugando
+        //scanf("%d", &seguir_jugando);
+        printf("Presioe cualquier tecla para continuar...\n");
+        getchar(); // Consumir el '\n' pendiente
+        getchar(); // Esperar a que el usuario presione una tecla
         system("clear");    
-    }
+    //}
 
     printf("Gracias por jugar!\n");
 }

@@ -38,7 +38,7 @@ Dado que el sistema está diseñado para ser accesible y de fácil utilizacion, 
 
 ## Descripcion de las diversas funciones 
 
-### **Inicio del programa**
+### Inicio del programa
 
 Primero se muestra el nombre del casino, como tambien si es que los usuarios se han leido correctamente. Se pide el nombre al usuario y se lee el archivo de [jugadores](Jugadores.csv). 
 
@@ -54,23 +54,46 @@ Ingrese el monto a modificar: 2000
 
 **Caso 2**
 
-En el caso de que el jugadore
+En el caso de que el jugador no se encuentre, se informa y se le pide al usuario que ingrese un nombre y saldo para este nuevo jugador. En el caso de que el nombre entregado coincida con alguno del archivo, se informa que el usuario si existe.
 
+```
+Sub-caso 1:
+Jugador no encontrado, registre un nuevo jugador.
+Ingrese su nombre: Jorge
+Ingrese su dinero: 15000
+Jugador registrado exitosamente
+
+Sub-caso 2:
+Jugador no encontrado, registre un nuevo jugador.
+Ingrese su nombre: Andres
+El jugador ya existe.
+```
+
+### Menu de juegos
+
+Se muestra el menu que contiene todos los juegos y la opcion de salir, siendo el usuario el elija alguna de estas.
+
+```
+==================================
+
+    Bienvenido a Casino Zona 3    
+
+==================================
+
+¿Cual juego desea jugar?
+1. Blackjack
+2. Ruleta
+3. Carrera de caballos
+4. Crash
+5. Salir
+```
 
 ### **Opcion 1**
 
-Estado inicial:
-
-X  -  2  -  8 
-
-1  -  3  -  4 
-
-6  -  5  -  7
-
-Se realiza la busqueda por profundidad al estado inicial, generando los movimientos adyacentes, como tambien los posibles casos, no almacenando los repetidos y evitando iteraciones innecesarias. Luego se muestra el camino mas rapido a la solucion encontrada.
+Se inicializa el programa del Blackjack, 
 
 ```
-Opción seleccionada: 1) Búsqueda en Profundidad
+Opción seleccionada: 1) Blackjack
 Se realizan los procedimientos necesarios y se 
 imprimen por pantalla los pasos de la resolucion
 en el caso de que el usuario asi lo desee...

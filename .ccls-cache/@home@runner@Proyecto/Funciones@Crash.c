@@ -4,22 +4,21 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "Crash.h"
-#include "TDAs/list.h"
 
-int inputReceived = 0; // Flag to indicate input has been received
+int inputReceived = 0; // Para saber si se ha recibido un input del usuario
 pthread_mutex_t inputMutex; // Mutex for thread synchronization
 
-// Function for the input thread
+// Función para manejar el input
 void *handleInput(void *arg) 
 {
   while (1) 
   {
-    // Check for input using nonblocking read
+    // Comprueba si se ha recibido un input del usuario 
     char input;
     int bytesRead = read(STDIN_FILENO, &input, 1);
     if (bytesRead > 0) 
     {
-      // Input received, update the flag
+      // Input recibido
       pthread_mutex_lock(&inputMutex);
       inputReceived = 1; 
       pthread_mutex_unlock(&inputMutex);
@@ -209,42 +208,42 @@ void explosion()
 // Juego crash
 void crash(int *saldo)
 {
-  srand(time(NULL)); 
-  float maximo = numeroMax();
-  float numero = 1.00;
-  float retirada = numero; 
-  int retiro = 0;
-  int cont = 1;
+  srand(time(NULL)); // Inicializa la semilla del generador de números aleatorios
+  float maximo = 3.00; // Máximo antes de la explosión
+  float numero = 1.00; // Multiplicador
+  float retirada = numero; // Monto a ganar
+  int retiro = 0; // Si ya se retiró o no
+  int cont = 1; // Contador para mostrar la animación
   int apuesta;
 
   printf("¡Bienvenido al juego de Crash!\n");
   printf("Tu saldo actual es: $%d\n", *saldo);
-  printf("Ingresa la cantidad que deseas apostar: ");
+  printf("Ingresa la cantidad que deseas apostar: "); // Se le pide al usuario que ingrese la cantidad que desea apostar
   scanf("%d", &apuesta);
   if (apuesta > *saldo)
   {
     printf("No tienes suficiente saldo para realizar esta apuesta.\n");
     return;
   }
-  *saldo -= apuesta;
+  *saldo -= apuesta; //Registra la apuesta
   printf("Iniciando juego...\n");
-  usleep(2000000);
-  
+  usleep(2000000); //Espera 2 segundos
+
   pthread_mutex_init(&inputMutex, NULL);
 
   pthread_t inputThread;
   pthread_create(&inputThread, NULL, handleInput, NULL);
   
-  // Display the initial state before the loop
+  // Muestra la animación del avión en la pantalla por primera vez
   limpiarPantalla();
   mostrarAvion(cont);
   printf("%20.2f\n", numero);
 
   while (numero <= maximo) 
   {
-    // Update the display only when needed
+    // Actualiza la pantalla
     if (numero != 1.00 || retiro) 
-    { // Check if 'numero' has changed or user input
+    {
       limpiarPantalla();
       mostrarAvion(cont);
       if (cont > 9) cont = 1;
@@ -253,7 +252,7 @@ void crash(int *saldo)
       cont++;
     }
 
-    // Check for input only if the user hasn't already withdrawn
+    // Se revisa si el usuario pulsó un botón solo cuando este no ha retirado
     if (!retiro) 
     {
       pthread_mutex_lock(&inputMutex);
@@ -261,34 +260,40 @@ void crash(int *saldo)
       {
         retiro = 1;
         retirada = numero;
-        inputReceived = 0; // Reset the flag
+        inputReceived = 0;
       }
       pthread_mutex_unlock(&inputMutex);
     }
 
-    // Generate a random increment
+    // Genera un incremento aleatorio
     float incremento = randomizar(2, 6);
     numero = numero + incremento;
-
-    usleep(300000); 
+    
+    usleep(300000); // Espera 0.3 segundos
   }
 
+  // Muestra la explosión en la pantalla
   limpiarPantalla();
   explosion();
   printf("El avion ha crasheado.\n");
-  if (!retiro) 
+  if (!retiro) // Si el usuario no retiró a tiempo
   {
     retirada = 0;
     printf("Perdiste.\n");
   } 
-  else 
+  else // Si el usuario retiró a tiempo
   {
     printf("Ganaste con un multiplicador de %.2f\n", retirada);
     *saldo = *saldo + (apuesta * retirada);
   }
   printf("Tu saldo actual es: $%d\n", *saldo);
+  
+  pthread_cancel(inputThread); 
+  pthread_join(inputThread, NULL);
+  inputReceived = 0;
 }
 
+// Función para mostrar las reglas del crash
 void reglasCrash()
 {
   printf("¿Deseas leer las reglas? (s/n) \n");
