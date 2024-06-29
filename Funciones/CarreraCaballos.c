@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 #include "CarreraCaballos.h"
 
 #define totalCaballos 6
@@ -106,6 +107,8 @@ void carrera(int *montoUsuario) {
     int jugado = 0;
     int apuestaCaballo = 0;
 
+    srand(time(NULL));
+    
     mostrarMenu();
 
     do {
