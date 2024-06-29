@@ -174,7 +174,7 @@ El dinero del jugador Sepu ha sido modificado exitosamente
 Quieres seguir jugando? (1 para si, 0 para no): .
 
 ```
-*Paso 3.7 : El jugador debe elegir una opción*
+*Paso 3.2 : El jugador debe elegir una opción*
 El jugador debe selecciona si quedarse, pedir, doblar o dividir en caso de que sea posible
 ```
     --------------------------
@@ -467,10 +467,6 @@ Lo siento, perdiste tu apuesta de $2000.
 
 Se le pregunta al usuario si es que desea seguir jugando.
 
-```
-
-```
-
 **Caso 1**
 
 Si es que así lo desea, se sigue jugando y se repiten los pasos anteriores.
@@ -479,9 +475,6 @@ Si es que así lo desea, se sigue jugando y se repiten los pasos anteriores.
 
 En el caso de que no se desee seguir jugando, serea 
 
-```
-
-```
 
 ### **Opción 4: Crash**
 
