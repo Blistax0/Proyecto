@@ -110,6 +110,7 @@ void print_mesa_apuesta() {
     printf("         |    1-18    |    PAR    |    ROJO    |    NEGRO    |    IMPAR    |    19-36   |\n");
     printf("         ================================================================================ \n");
     printf("Tipos de apuesta\n");
+    printf("=================================================\n");
     printf("1. Elegir un numero\n");
     printf("2. Apostar Rojo       | ");
     printf("3. Apostar Negro\n");
@@ -194,7 +195,6 @@ void elegir_apuesta(int* apuestas, int* valores, int num_apuestas, Ruleta_slot r
                 if (resultado.numero >= 19 && resultado.numero <= 36) win = 1;
                 break;
             default:
-                printf("Apuesta inválida\n");
                 break;
         }
         if (win) {
@@ -277,14 +277,15 @@ void Ruleta_Main(int * saldo) {
         printf("Tu saldo actual es: %d\n", *saldo);
         int num_apuestas = 0; // cantidad de apuestas
         int apuestas[1]; // lista con apuestas max 10
-        int valores[20];// lista con valores max 20
-        int cantidad_dinero[20]; // cantidad  max 20
+        int valores[20];// lista con valores max 20 [2,2,3,4,5,6,7,8,9] -> elegir numero de apuestas
+        int cantidad_dinero[20]; // cantidad de dinero por apuestas guardadas en un lista [100,200,300]
         char continuar = 's';
     
         while (continuar == 's' || continuar == 'S') {
             apuestas[num_apuestas] = tu_apuesta(); // elegir numero
             valores[num_apuestas] = obtener_numero(apuestas[num_apuestas]);// elegir valor de apuesta
-            cantidad_dinero[num_apuestas] = obtener_cantidad_dinero(saldo);
+            cantidad_dinero[num_apuestas] = obtener_cantidad_dinero(saldo);// cantidad de dinero que tiene por apuesta
+            
             num_apuestas++;// aumentar la cantidad de apuestas
     
             *saldo -= cantidad_dinero[num_apuestas];

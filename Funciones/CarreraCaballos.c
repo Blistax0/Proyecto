@@ -17,9 +17,9 @@ void mostrarMenu() {
 void mostrarProgreso(int posiciones[]) {
     system("clear");  
 
-    printf("=========================================================\n");
-    printf("                    Carrera en curso                     \n");
-    printf("=========================================================\n");
+    printf("==============================================================\n");
+    printf("                        Carrera en curso                      \n");
+    printf("=======================================================🏁🏁🏁\n");
 
     for (int i = 0; i < totalCaballos; i++) {
         printf("Caballo %d: ", i + 1);
@@ -28,7 +28,7 @@ void mostrarProgreso(int posiciones[]) {
         }
         printf("🏇\n");
     }
-    printf("=========================================================\n");
+    printf("=======================================================🏁🏁🏁\n");
 }
 
 void iniciarCarrera(int *montoUsuario) {
@@ -36,7 +36,7 @@ void iniciarCarrera(int *montoUsuario) {
     int carreraTerminada = 0;
     int montoApostado = 0;
     int numCaballo = 0;
-    int distanciaMax = 50;
+    int distanciaMax = 45;
     
     printf("\nSeleccione el caballo al que desea apostar (1-%d): ", totalCaballos);
     scanf("%d", &numCaballo);
@@ -46,7 +46,7 @@ void iniciarCarrera(int *montoUsuario) {
         scanf("%d", &numCaballo);
     }
 
-    printf("\nTu saldo actual es: %d\n", *montoUsuario);
+    printf("Tu saldo actual es: %d\n", *montoUsuario);
     printf("Ingrese el monto a apostar: ");
     scanf("%d", &montoApostado);
 
@@ -71,9 +71,6 @@ void iniciarCarrera(int *montoUsuario) {
     while (carreraTerminada != 1) {
         for (int i = 0; i < totalCaballos; i++) {
             posiciones[i] += rand() % (3 - 1 + 1) + 1;
-            if (i == 4){
-                posiciones[i] += 19;
-            }
             if (posiciones[i] >= distanciaMax) {
                 carreraTerminada = 1;
             }
@@ -81,7 +78,7 @@ void iniciarCarrera(int *montoUsuario) {
 
         mostrarProgreso(posiciones);
 
-        usleep(50000);
+        usleep(900000);
     }
 
     int ganador = 0;
@@ -170,7 +167,7 @@ void reglasCarrera(){
                 printf(" Las reglas del juego son las siguientes: \n");
                 printf("==========================================\n");
                 printf(" Hay 6 caballos por lo que apostar, cada  \n");
-                printf(  "caballo tiene un numero y probabilidad  \n");
+                printf("  caballo tiene un numero y probabilidad  \n");
                 printf("    aleatoria, que no define si sera el   \n");
                 printf("ganador o no. En caso de ganar, los pagos \n");
                 printf("se realizaran devolviendo el doble de lo  \n");

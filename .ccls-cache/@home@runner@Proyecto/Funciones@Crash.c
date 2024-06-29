@@ -32,39 +32,38 @@ int numeroAleatorioConProbabilidades()
 {
   int numeroAleatorio = rand() % 100 + 1;  // Genera un número aleatorio entre 1 y 100
 
-  /*
-  if (numeroAleatorio <= 35) 
-    return 1;  // 35% de probabilidad 1 a 2,5
-  */
-  if (numeroAleatorio <= 70) 
-    return 1;  // 70% de probabilidad 2,5 a 5
+  if (numeroAleatorio <= 45) 
+    return 1;  // 45% de probabilidad 1 a 2,5
+  
+  if (numeroAleatorio <= 90) 
+    return 2;  // 45% de probabilidad 2,5 a 5
 
-  else if (numeroAleatorio <= 80) 
-    return 2;  // 10% de probabilidad 5,1 a 10
+  else if (numeroAleatorio <=92) 
+    return 3;  // 2% de probabilidad 5,1 a 10
 
-  else if (numeroAleatorio <= 85) 
-    return 3;  // 5% de probabilidad 10,1 a 20
-
-  else if (numeroAleatorio <= 90)
-    return 4;  // 5% de probabilidad 20,1 a 30
+  else if (numeroAleatorio <= 93) 
+    return 4;  // 1% de probabilidad 10,1 a 20
 
   else if (numeroAleatorio <= 94)
-    return 5;  // 4% de probabilidad 30,1 a 40
+    return 5;  // 1% de probabilidad 20,1 a 30
+
+  else if (numeroAleatorio <= 95)
+    return 6;  // 1% de probabilidad 30,1 a 40
 
   else if (numeroAleatorio <= 96)
-    return 6;  // 2% de probabilidad 40,1 a 50
+    return 7;  // 1% de probabilidad 40,1 a 50
 
   else if (numeroAleatorio <= 97)
-    return 7;  // 1% de probabilidad 50,1 a 60
+    return 8;  // 1% de probabilidad 50,1 a 60
 
   else if (numeroAleatorio <= 98)
-    return 8;  // 1% de probabilidad 60,1 a 70
+    return 9;  // 1% de probabilidad 60,1 a 70
 
   else if (numeroAleatorio <= 99)
-    return 9;  // 1% de probabilidad 70,1 a 80
+    return 10;  // 1% de probabilidad 70,1 a 80
 
   else
-    return 10;  // 1% de probabilidad 80,1 a 102
+    return 11;  // 1% de probabilidad 80,1 a 102
 }
 
 // Función para generar un número aleatorio en el intervalo indicado
@@ -85,43 +84,43 @@ float numeroMax()
     case 1:
       numero = randomizar(100, 250);
       break;
-    //case 1:
-      //numero = randomizar(251, 500);
-      //break;
-
     case 2:
-      numero = randomizar(501, 1000);
+      numero = randomizar(251, 500);
       break;
 
     case 3:
-      numero = randomizar(1001, 2000);
+      numero = randomizar(501, 1000);
       break;
 
     case 4:
-      numero = randomizar(2001, 3000);
+      numero = randomizar(1001, 2000);
       break;
 
     case 5:
-      numero = randomizar(3001, 4000);
+      numero = randomizar(2001, 3000);
       break;
 
     case 6:
-      numero = randomizar(4001, 5000);
+      numero = randomizar(3001, 4000);
       break;
 
     case 7:
-      numero = randomizar(5001, 6000);
+      numero = randomizar(4001, 5000);
       break;
 
     case 8:
-      numero = randomizar(6001, 7000);
+      numero = randomizar(5001, 6000);
       break;
 
     case 9:
-      numero = randomizar(7001, 8000);
+      numero = randomizar(6001, 7000);
       break;
 
     case 10:
+      numero = randomizar(7001, 8000);
+      break;
+
+    case 11:
       numero = randomizar(8001, 10200);
       break;
   }
@@ -228,7 +227,7 @@ void crash(int *saldo)
   printf("Ingresa la cantidad que deseas apostar: "); // Se le pide al usuario que ingrese la cantidad que desea apostar
   scanf("%d", &apuesta);
   getchar();
-  if (apuesta > *saldo)
+  if (apuesta > *saldo || apuesta <= 0)
   {
     printf("No tienes suficiente saldo para realizar esta apuesta.\n");
     printf("Presione cualquier tecla para salir del juego.\n");

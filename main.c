@@ -184,9 +184,9 @@ int main(void) {
               printf("%d\n", *(int*)aux);
             aux = list_next(historialCrash);
           }
-          printf("\n");
-
-          printf("Quieres seguir jugando? (1 para si, 0 para no): ");
+          printf("Presione Enter para salir del juego.\n");
+          getchar();
+          //printf("Quieres seguir jugando? (1 para si, 0 para no): ");
           //if (scanf(" %d", &mantener) != 1) {
           //    while (getchar() != '\n'); // Limpiar el búfer de entrada
           //    mantener = 0; // En caso de entrada no válida, detener el juego

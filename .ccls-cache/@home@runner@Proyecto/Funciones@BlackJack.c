@@ -603,5 +603,8 @@ void jugar_blackjack(int * saldo){ // main del blackjack
       }
     }
     declarar_ganador(jugador, &crupier, &baraja, saldo, apuesta); // Se declara el ganador de la partida
+    printf("Presione enter para volver al menu principal...\n");
+    getchar();
+    getchar();
   }
 }
