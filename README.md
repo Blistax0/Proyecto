@@ -144,7 +144,7 @@ Cuanto desea apostar?
 ```
 
 **Paso 3 : Se muestran las cartas de crupier y el jugador**
-*Paso 315 :En caso de que el jugador tenga 21 gana directamente*
+*Paso 3.1: En caso de que el jugador tenga 21 gana directamente*
 
 ```
     --------------------------
@@ -174,7 +174,7 @@ El dinero del jugador Sepu ha sido modificado exitosamente
 Quieres seguir jugando? (1 para si, 0 para no): .
 
 ```
-*Paso 3.7 : El jugador debe elegir una opcion*
+*Paso 3.7 : El jugador debe elegir una opción*
 El jugador debe selecciona si quedarse, pedir, doblar o dividir en caso de que sea posible
 ```
     --------------------------
@@ -205,7 +205,7 @@ El jugador debe selecciona si quedarse, pedir, doblar o dividir en caso de que s
 ```
 si el jugador desea otra carta selecciona la opción 1, si no de sea otra la opción 2, si desea doblar su apuesta y pedir una unica carta la opción 3 y si desea dividir sus manos en 2 diferentes la opción 4
 
-### **Opcion 2: Ruleta**
+### **Opción 2: Ruleta**
 **paso 1**
 
 Se inicializa el Programa de la ruleta europea, esta comienza preguntando si quiere saber las reglas del juego.
@@ -227,7 +227,7 @@ Se inicializa el Programa de la ruleta europea, esta comienza preguntando si qui
 2
 Antes de jugar quieres saber las reglas: (1: SI | 2: NO): 
 ```
-**paso 2**
+**Paso 2**
 
 Si el usuario quiere saber las reglas debe apretar el numero 1.
 Aparece las reglas del juego y cada multiplicador.

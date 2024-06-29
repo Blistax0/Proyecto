@@ -231,7 +231,7 @@ void elegir_apuesta(int* apuestas, int* valores, int num_apuestas, Ruleta_slot r
         }
     }
 }
-
+//Funcion 
 int obtener_cantidad_dinero(int * saldo){
     int cantidad_apuestass;
     printf("Ingrese el dinero que desea apostar: ");
@@ -288,7 +288,7 @@ void Ruleta_Main(int * saldo) {
             
             num_apuestas++;// aumentar la cantidad de apuestas
     
-            *saldo -= cantidad_dinero[num_apuestas];
+            *saldo -= cantidad_dinero[num_apuestas];//CAMBIO DE SALDO
             
             printf("¿Quieres hacer otra apuesta? (s/n): "); // opcion para seguir haciendo apuestas
             scanf(" %c", &continuar);// leer la opcion
