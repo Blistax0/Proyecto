@@ -283,7 +283,7 @@ void Ruleta_Main(int * saldo) {
     
         while (continuar == 's' || continuar == 'S') {
             apuestas[num_apuestas] = tu_apuesta(); // elegir el tipo de apuesta
-            valores[num_apuestas] = obtener_numero(apuestas[num_apuestas]);// elegir el numero a apostar ()
+            valores[num_apuestas] = obtener_numero(apuestas[num_apuestas]);// elegir el numero a apostar (si es opcion 1)
             cantidad_dinero[num_apuestas] = obtener_cantidad_dinero(saldo);// cantidad de dinero que tiene por apuesta
             
             num_apuestas++;// aumentar la cantidad de apuestas
