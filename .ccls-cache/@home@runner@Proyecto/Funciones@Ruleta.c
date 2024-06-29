@@ -276,8 +276,8 @@ void Ruleta_Main(int * saldo) {
         print_mesa_apuesta(); //imprimir la mesa de apuestas
         printf("Tu saldo actual es: %d\n", *saldo);
         int num_apuestas = 0; // cantidad de apuestas
-        int apuestas[1]; // lista con apuestas max 10, estos son si el jugador eligio la opcion 1(elegir un numero)
-        int valores[20];// lista con valores max 20 [2,2,3,4,5,6,7,8,9] -> la elecciones que hizo el usario
+        int apuestas[10]; // lista con valores max 20 [2,2,3,4,5,6,7,8,9] -> la elecciones que hizo el usuario
+        int valores[20];// lista con apuestas max 10, estos son si el jugador eligio la opcion 1(elegir un numero)
         int cantidad_dinero[20]; // cantidad de dinero por apuestas guardadas en un lista [100,200,300]
         char continuar = 's';
     
