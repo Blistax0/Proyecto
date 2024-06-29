@@ -277,8 +277,9 @@ Tu saldo actual es: 1
 Ingrese el tipo de apuesta: 
 ```
 Acá el usuario debe elegir un tipo de apuesta, esto va depender de cuanto dinero tiene.
+
 **caso 1**
-Si el usuario apuesta mas dinero de lo que tiene el programa va decirle que no tiene suficiente saldo y si desea hace otra apuesta.
+Si el usuario apuesta y no tiene dinero, el programa va decirle que no tiene suficiente saldo y le pregunta si quiere hacer otra apuesta.
 ```
 =================================================
 1. Elegir un numero
@@ -295,7 +296,7 @@ No tienes suficiente saldo para realizar esa cantidad de apuestas.
 ¿Quieres hacer otra apuesta? (s/n):
 ```
 **caso 2**
-Si el usuario puede apostar, el programa le va preguntar si quiere hacer otra apuesta
+Si el usuario puede apostar, el programa le va preguntar si quiere hacer otra apuesta.
 ```
 Tipos de apuesta
 =================================================
@@ -311,10 +312,10 @@ Ingrese el dinero que desea apostar: 1
 ¿Quieres hacer otra apuesta? (s/n): n
 ```
 
-**Caso 3**
-Si el usuario desea seguir hacer apuestas en su turno, le va preguntar que tipo de apuesta quiere hacer y el dinero que desea apostar
+**Caso 2.5**
+Si el usuario desea seguir haciendo apuestas en su turno, el programa le va preguntar el tipo de apuesta que quiere hacer, y el dinero que desea apostar.
 
-Para finalizar esta parte el codigo mostrara la ruleta girando, esto es una animacion.
+Para finalizar esta parte el codigo se mostrara la ruleta girando, esto es una animacion.
 ```
 Tipos de apuesta
 =================================================
@@ -338,7 +339,7 @@ Girando: 30 (Rojo)
 
 **Parte 3**
 
-Aca se mostrara el resultado del lanzamiento y las apuestas que hizo el usuario, aca se mostrara el numero y color ganador y se mostrara en pantalla si el usario gano o perdio
+Acá se mostrará el resultado del lanzamiento y las apuestas que hizo el usuario, y se mostrará el número y color ganador.
 ```
 Resultado del lanzamiento: 35 (Negro)
 =================================================
@@ -351,14 +352,14 @@ Historial de resultado:
 Número: 35, Color: Negro
 Presione cualquier tecla para continuar...
 ```
-Para finalizar el programa, le va decir el usuario que presione cualquier tecla, y esto lo va enviar al menu principal.
+Para finalizar el programa, le va decir el usuario que presione cualquier tecla, y esto lo va enviar al menú principal.
 
 
-### **Opcion 3: Carrera de caballos**
+### **Opción 3: Carrera de caballos**
 
 **Paso 1: Seleccionar carrera de caballos**
 
-Al seleccionar la opcion 3, la cual es la carrera de caballos, se muestra un menu preguntadole al usuario si es que desea leer las reglas.
+Al seleccionar la opción 3se muestra un menú preguntándole al usuario si es que desea leer las reglas.
 
 ```
 Opcion seleccionada: 3. Carrera de caballos
@@ -373,7 +374,7 @@ Ingrese su respuesta:
 
 **Paso 1.1**
 
-La opcion 1 mostrara las reglas del juego y los pagos.
+La opción 1 mostrará las reglas del juego y los pagos.
 
 ```
 ==========================================
@@ -393,7 +394,7 @@ apostado. En caso de perder, se le restara
 
 **Paso 1.1**
 
-La opcion 2 mandara al usuario al menu principal del juego.
+La opción 2 mandará al usuario al menu principal del juego.
 
 ```
 Mostrando menu principal...
@@ -401,7 +402,7 @@ Mostrando menu principal...
 
 **Paso 2**
 
-Se muestra el menu principal, dando las opciones de apostar e iniciar la carrera o salir.
+Se muestra el menú principal, dando las opciones de apostar e iniciar la carrera o salir.
 
 ```
 ====================================
@@ -415,7 +416,7 @@ Seleccione una opción:
 
 **Paso 2.1**
 
-Al seleccionar la primera opcion, se le pregunta al usuario por el caballo y el saldo a apostar. 
+Al seleccionar la primera opción, se le pregunta al usuario por el caballo y el saldo a apostar. 
 
 ```
 Seleccione el caballo al que desea apostar (1-6): 4
@@ -425,11 +426,11 @@ Ingrese el monto a apostar: 1500
 
 **Paso 2.2**
 
-Al seleccionar la segunda opcion, se retoran al menu principal del casino.
+Al seleccionar la segunda opción, se retorna al menú principal del casino.
 
 **Paso 3**
 
-Se ejecuta el codigo y se muestra el curso de la carrera.
+Se ejecuta el código y se muestra el curso de la carrera.
 
 ```
 =========================================================
