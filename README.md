@@ -645,7 +645,7 @@ Finalmente se le pide al usuario que presione Enter para salir del juego. Esto h
 
 **Paso 1: Se ingresa el saldo que se desea añadir**
 
-Primero se muestra el saldo del jugador y se le pregunta el monto a modificar
+Primero se muestra el saldo del jugador y se le pregunta el monto a modificar.
 
 ```
 Tu saldo actual es: 10000
@@ -653,7 +653,7 @@ Ingrese el monto a modificar:
 ```
 **Paso 2: Se muestra el nuevo saldo**
 
-Una vez ingresado se muestra el nuevo saldo ya modificado
+Una vez ingresado se muestra el nuevo saldo ya modificado.
 
 ```
 Tu saldo actual es: 10000
