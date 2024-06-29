@@ -23,18 +23,21 @@ Dado que el sistema está diseñado para ser accesible y de fácil utilizacion, 
 - Ruleta.
 
 ### Problemas conocidos:
-
-- A
-- B
-- C
-- D
+- General
+    - Si se ingresan numeros cuando se piden letras o palabras, se puede generar un error. También cuando se ingresan letras en vez de numeros puede llevar a un error de ejecución
+- Black Jack
+    - Posibles errores en la función split
+- Carrera de Caballos
+    - aaa
+- Crash
+    - Problemas al ingresar dos o más caracteres cuando se le pide solo uno, desde errores gráficos hasta la finalización del programa.
+- Ruleta
+    - Historial
 
 ### A mejorar:
 
-- A
-- B
-- C
-- D
+- Se podria mejorar la interfaz del menú de registro e inicio de sesion para que sea más amigable
+- 
 
 ## Descripcion de las diversas funciones 
 
@@ -90,44 +93,275 @@ Se muestra el menu que contiene todos los juegos y la opcion de salir, siendo el
 
 ### **Opcion 1**
 
-Se inicializa el programa del Blackjack, 
+Se inicializa el programa del Blackjack, preguntadole al usuario si es que desea ver las reglas del juego, mostrandolas si asi lo desea este y en caso contrario mostrando el menu principal
 
 ```
-Opción seleccionada: 1) Blackjack
-Se realizan los procedimientos necesarios y se 
-imprimen por pantalla los pasos de la resolucion
-en el caso de que el usuario asi lo desee...
+ --------------------------------
+|Bienvenido al juego de Blackjack|
+ --------------------------------
+|Desea saber las reglas?        |
+|1. Si                          |
+|2. No                          |
+ ------------------------------- 
 ```
-
-**Opcion 2: Buscar peliculas por su ID**
-
-Estado inicial:
-
-X  -  2  -  8 
-
-1  -  3  -  4 
-
-6  -  5  -  7
-
-Se realiza la busqueda por anchura al estado inicial, generando los movimientos adyacentes, como tambien los posibles casos, no almacenando los repetidos y evitando iteraciones innecesarias. Luego se muestra el camino mas rapido a la solucion encontrada.
+**Paso 1.5: Ver las reglas**
+Si el jugador desea ver las reglas verá lo siguiente
 
 ```
-Opción seleccionada: 2) Búsqueda en Anchura
-Se realizan los procedimientos necesarios y se 
-imprimen por pantalla los pasos de la resolucion
-en el caso de que el usuario asi lo desee...
+ ----------------------------------------------------------------------------------------------------
+|Las reglas son las siguientes:                                                                      |
+|1. Al jugador se le entregaran 2 cartas.                                                            |
+|2. Al Crupier se le entregaran 2 cartas. Solo una es visible                                        |
+|3. El objetivo del juego es tener una puntuacion lo más cercana posible a 21 sin pasarse.           |
+|4. Si el jugador tiene un As, puede tomarlo como un 1 o como un 11.                                 |
+|5. Si el jugador tiene dos As, el segundo As se toma como un 1.                                     |
+|6. Si el jugador tiene un As y un 10, gana directamente.                                            |
+|7. Si el crupier supera los 21, el jugador gana.                                                    |
+|8. Las cartas J, Q y K valen 10.                                                                    |
+|9. Se puede utilizar la opcion de doblar y pedir solo si tiene el saldo necesario                   |
+|10. Se puede utilizar la opcion de dividir manos si tiene el saldo necesario                        |
+|11. En caso de que se seleccione una de estas opciones y no sea posible, sera tomado como quedarse. |
+ ----------------------------------------------------------------------------------------------------
+|Presione enter para continuar...                                                                    |
+ ----------------------------------------------------------------------------------------------------
 
 ```
+**Paso 2 : Ingresar la apuesta**
 
-**Opcion 3: Buscar Mejor Primero**
+Se ingresa la apuesta que desea hacer el jugador
+```
+Su saldo actual es de $270266
+Cuanto desea apostar?
+1000
+```
 
-Funcion no programada debido a que esta se realizaba en el caso de hacer la tarea en parejas.
-
-**Opcion 4: Salir del programa**
-
-Esta funcion termina el programa, liberando la memoria de las listas utilizadas.
+**Paso 3 : Se muestran las cartas de crupier y el jugador**
+*Paso 3.5 :En caso de que el jugador tenga 21 gana directamente*
 
 ```
-Opción seleccionada: 4) Salir
-Presione una tecla para continuar...
+    --------------------------
+   |Carta visible del crupier:|   
+    --------------------------
+              ----- 
+             |♠    |
+             |  4  |
+             |    ♠|
+              ----- 
+
+             ------- 
+            |Tu mano|
+             ------- 
+       -----         -----  
+      |♠    |       |♦    | 
+      |  K  |       |  A  | 
+      |    ♠|       |    ♦| 
+       -----         -----  
+          ------------- 
+         |Puntuacion:21|
+          ------------- 
+ ---------------------------------
+|¡Felicidades! Has ganado con 21 |
+ ---------------------------------
+El dinero del jugador Sepu ha sido modificado exitosamente
+Quieres seguir jugando? (1 para si, 0 para no): .
+
 ```
+*Paso 3.7 : El jugador debe elegir una opcion*
+El jugador debe selecciona si quedarse, pedir, doblar o dividir en caso de que sea posible
+```
+    --------------------------
+   |Carta visible del crupier:|   
+    --------------------------
+              ----- 
+             |♥    |
+             |  6  |
+             |    ♥|
+              ----- 
+
+             ------- 
+            |Tu mano|
+             ------- 
+       -----         -----  
+      |♦    |       |♠    | 
+      |  5  |       |  7  | 
+      |    ♦|       |    ♠| 
+       -----         -----  
+          ------------- 
+         |Puntuacion:12|
+          ------------- 
+¿Que desea hacer?
+1) Pedir carta
+2) Plantarse
+3) Doblar
+4) Dividir (split)
+```
+si el jugador desea otra carta selecciona la opción 1, si no de sea otra la opción 2, si desea doblar su apuesta y pedir una unica carta la opción 3 y si desea dividir sus manos en 2 diferentes la opción 4
+
+### **Opcion 2: Ruleta**
+
+Se inicializa el Programa de la ruleta europea, esta comienza preguntando si quiere saber las reglas del juego y mostrando tu saldo actual
+
+### **Opcion 3: Carrera de caballos**
+
+
+
+### **Opcion 4: Crash**
+
+**Paso 1: Inicio**
+
+Se inicializa el programa del Crash, preguntándole al usuario si desea ver las reglas del juego.
+
+````
+Has elegido la opción 4: Crash
+¿Deseas leer las reglas? (s/n)
+````
+
+Las reglas se muestran cuando el usuario escribe 's'. En caso contrario, prosigue al Paso 2.
+
+````
+Has elegido la opción 4: Crash
+¿Deseas leer las reglas? (s/n) s
+Reglas del juego:
+El juego consiste en un avión que se mueve mientras que un multiplicador va aumentando. La idea es retirar el multiplicador antes de que el avión explote.
+Presione cualquier tecla para continuar.
+````
+
+**Paso 2: Apuesta**
+
+Se le pide al jugador que ingrese la cantidad de dinero a apostar.
+````
+¡Bienvenido al juego de Crash!
+Tu saldo actual es: $271766
+Ingresa la cantidad que deseas apostar: 
+````
+Si se ingresa un monto válido, el programa se prepara para empezar.
+````
+¡Bienvenido al juego de Crash!
+Tu saldo actual es: $271766
+Ingresa la cantidad que deseas apostar: 100
+Iniciando juego...
+````
+En caso contrario, se sale del juego.
+````
+¡Bienvenido al juego de Crash!
+Tu saldo actual es: $271766
+Ingresa la cantidad que deseas apostar: 300000
+No tienes suficiente saldo para realizar esta apuesta.
+Presione cualquier tecla para salir del juego.
+````
+
+**Paso 3: Jugar y retirar**
+
+Inicia el juego y se muestra al avión avanzando y el multiplicador aumentando. El usuario decide en qué momento retirar presionando cualquier tecla, siempre y cuando sea antes que el avión explote.
+
+Pantalla que se muestra en un momento cualquiera de la ejecución:
+````
+      _  _
+     ( `   )_
+    (    )    `)
+  (_   (_ .  _) _)
+
+               _
+             -=\`\
+         |\ ____\_\__
+------ -=\c`""""""" "`)
+          `~~~~~/ /~~`
+            -==/ /
+              '-'
+                                   _
+                                  (  )
+   _ .                         ( `  ) . )
+ (  _ )                      (_, _(  ,_)_)
+(_ ,)
+                1.13
+````
+
+Pantalla que se muestra en un momento cualquiera después de presionar una tecla:
+````
+          _  _
+         ( `   )_
+        (    )    `)
+      (_   (_ .  _) _)
+
+               _
+             -=\`\
+         |\ ____\_\__
+------ -=\c`""""""" "`)
+          `~~~~~/ /~~`
+            -==/ /
+              '-'
+                                     _
+                                    (  )
+     _ .                         ( `  ) . )
+   (  _ )_                      (_, _(  ,_)_)
+ (_  _(_ ,)
+                2.46
+Ya retiraste.
+````
+
+**Paso 4: Fin del juego y resultados**
+
+Se presenta la explosión del avión y el resultado de la partida. Además, se muestra el historial de las partidas realizadas en el tiempo de ejecución.
+
+En caso de perder:
+````
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⡀⢀⠀⢠⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢠⢤⣀⠀⠀⠀⠈⣆⢧⠈⡆⢸⠀⠀⠀⢰⢡⠇⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⢀⠀⠀⣯⢀⣨⠃⠀⠀⠀⠸⡜⣄⣣⢸⠀⠀⠀⡜⡌⠀⠀⠀⠀⢀⡜⡁⠀⠀⠀⠀⠀
+⠀⠀⠙⢮⡳⢄⠈⠁⠀⢠⠴⠍⣛⣚⣣⢳⢽⡀⣏⣲⣀⢧⡥⠤⠶⢤⣠⢎⠜⠁⠀⠀⠀⠀⠀
+⠀⠠⣀⠀⠙⢦⡑⢄⢀⣾⣧⡎⠁⠀⠙⡎⡇⡇⡇⠹⢪⣀⡓⣦⢀⣼⣵⠋⢀⠴⣊⠔⠁⠀⠀
+⠀⠀⠈⠑⢦⣀⠙⣲⣝⢭⡚⠃⠀⠀⠀⠸⠸⣹⠁⠀⠀⠀⠉⣹⣪⣎⡸⢞⡵⠊⠁⣀⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⣷⢯⣨⠷⣝⠦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠵⣪⢶⣙⡤⠖⢉⣀⠤⠖⠂
+⠀⠀⠀⠀⠀⢀⡞⢠⠾⠓⢮⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢬⣺⡯⢕⢲⠉⣥⣀⡀⠀⠀
+⠀⠀⢀⡤⣀⢈⡷⠻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠘⠀⢱⢾⠘⢇⢴⠁⠀⠀
+⠀⠀⢻⣀⡼⢘⣧⢀⡟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⢙⣞⠆⠀⠀⠀⠀⠀
+⠀⠀⠀⠉⠀⢿⡀⠈⠧⡤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠇⣹⣦⠇⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠸⢤⡴⢺⡧⣴⡶⢗⡣⠀⡀⠀⠀⠀⡄⠀⢀⣄⠢⣔⡞⣤⠦⡇⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣀⡤⣖⣯⡗⣪⢽⡻⣅⠀⣜⡜⠀⠀⠀⠸⡜⡌⣮⡣⡙⢗⢏⡽⠁⠰⡏⠙⡆⠀⠀
+⠀⠀⣒⡭⠖⣋⡥⣞⣿⡚⠉⠉⢉⢟⣞⣀⣀⣀⠐⢦⢵⠹⡍⢳⡝⢮⡷⢝⢦⡀⠉⠙⠁⠀⠀
+⠐⠊⢡⠴⠚⠕⠋⠹⣍⡉⠹⢧⢫⢯⣀⣄⣀⠈⣹⢯⣀⣧⢹⡉⠙⢦⠙⣄⠑⢌⠲⣄⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠘⠧⡴⣳⣃⣸⠦⠴⠖⢾⣥⠞⠛⠘⣆⢳⡀⠈⠳⡈⠳⡄⠁⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⡜⡱⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡄⢣⠀⠀⠉⠀⠈⠂⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⠞⡼⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⡀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+El avion ha crasheado.
+Perdiste.
+Tu saldo actual es: $272000
+El dinero del jugador Sepu ha sido modificado exitosamente
+Historial de partidas: 
++3
+-15
+
+Quieres seguir jugando? (1 para si, 0 para no): 
+````
+En caso de ganar:
+````
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⡀⢀⠀⢠⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢠⢤⣀⠀⠀⠀⠈⣆⢧⠈⡆⢸⠀⠀⠀⢰⢡⠇⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⢀⠀⠀⣯⢀⣨⠃⠀⠀⠀⠸⡜⣄⣣⢸⠀⠀⠀⡜⡌⠀⠀⠀⠀⢀⡜⡁⠀⠀⠀⠀⠀
+⠀⠀⠙⢮⡳⢄⠈⠁⠀⢠⠴⠍⣛⣚⣣⢳⢽⡀⣏⣲⣀⢧⡥⠤⠶⢤⣠⢎⠜⠁⠀⠀⠀⠀⠀
+⠀⠠⣀⠀⠙⢦⡑⢄⢀⣾⣧⡎⠁⠀⠙⡎⡇⡇⡇⠹⢪⣀⡓⣦⢀⣼⣵⠋⢀⠴⣊⠔⠁⠀⠀
+⠀⠀⠈⠑⢦⣀⠙⣲⣝⢭⡚⠃⠀⠀⠀⠸⠸⣹⠁⠀⠀⠀⠉⣹⣪⣎⡸⢞⡵⠊⠁⣀⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⣷⢯⣨⠷⣝⠦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠵⣪⢶⣙⡤⠖⢉⣀⠤⠖⠂
+⠀⠀⠀⠀⠀⢀⡞⢠⠾⠓⢮⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢬⣺⡯⢕⢲⠉⣥⣀⡀⠀⠀
+⠀⠀⢀⡤⣀⢈⡷⠻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠘⠀⢱⢾⠘⢇⢴⠁⠀⠀
+⠀⠀⢻⣀⡼⢘⣧⢀⡟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⢙⣞⠆⠀⠀⠀⠀⠀
+⠀⠀⠀⠉⠀⢿⡀⠈⠧⡤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠇⣹⣦⠇⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠸⢤⡴⢺⡧⣴⡶⢗⡣⠀⡀⠀⠀⠀⡄⠀⢀⣄⠢⣔⡞⣤⠦⡇⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣀⡤⣖⣯⡗⣪⢽⡻⣅⠀⣜⡜⠀⠀⠀⠸⡜⡌⣮⡣⡙⢗⢏⡽⠁⠰⡏⠙⡆⠀⠀
+⠀⠀⣒⡭⠖⣋⡥⣞⣿⡚⠉⠉⢉⢟⣞⣀⣀⣀⠐⢦⢵⠹⡍⢳⡝⢮⡷⢝⢦⡀⠉⠙⠁⠀⠀
+⠐⠊⢡⠴⠚⠕⠋⠹⣍⡉⠹⢧⢫⢯⣀⣄⣀⠈⣹⢯⣀⣧⢹⡉⠙⢦⠙⣄⠑⢌⠲⣄⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠘⠧⡴⣳⣃⣸⠦⠴⠖⢾⣥⠞⠛⠘⣆⢳⡀⠈⠳⡈⠳⡄⠁⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⡜⡱⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡄⢣⠀⠀⠉⠀⠈⠂⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⠞⡼⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⡀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+El avion ha crasheado.
+Ganaste con un multiplicador de 2.20
+Tu saldo actual es: $272006
+El dinero del jugador Sepu ha sido modificado exitosamente
+Historial de partidas: 
++240
+
+Quieres seguir jugando? (1 para si, 0 para no): 
+````
+Finalmente se pregunta si se quiere seguir jugando. Si la respuesta es 1, se vuelve al menú principal. En caso contrario, se finaliza el programa.

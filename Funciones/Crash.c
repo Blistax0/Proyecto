@@ -32,14 +32,18 @@ int numeroAleatorioConProbabilidades()
 {
   int numeroAleatorio = rand() % 100 + 1;  // Genera un número aleatorio entre 1 y 100
 
-  if (numeroAleatorio <= 60) 
-    return 1;  // 60% de probabilidad 1 a 5
+  /*
+  if (numeroAleatorio <= 35) 
+    return 1;  // 35% de probabilidad 1 a 2,5
+  */
+  if (numeroAleatorio <= 70) 
+    return 1;  // 70% de probabilidad 2,5 a 5
 
-  else if (numeroAleatorio <= 75) 
-    return 2;  // 15% de probabilidad 5,1 a 10
+  else if (numeroAleatorio <= 80) 
+    return 2;  // 10% de probabilidad 5,1 a 10
 
   else if (numeroAleatorio <= 85) 
-    return 3;  // 10% de probabilidad 10,1 a 20
+    return 3;  // 5% de probabilidad 10,1 a 20
 
   else if (numeroAleatorio <= 90)
     return 4;  // 5% de probabilidad 20,1 a 30
@@ -79,8 +83,11 @@ float numeroMax()
   switch(rango)
   {
     case 1:
-      numero = randomizar(100, 500);
+      numero = randomizar(100, 250);
       break;
+    //case 1:
+      //numero = randomizar(251, 500);
+      //break;
 
     case 2:
       numero = randomizar(501, 1000);
@@ -209,8 +216,8 @@ void explosion()
 void crash(int *saldo)
 {
   srand(time(NULL)); // Inicializa la semilla del generador de números aleatorios
-  float maximo = 3.00; // Máximo antes de la explosión
-  float numero = 1.00; // Multiplicador
+  float maximo = numeroMax(); // Máximo antes de la explosión
+  float numero = 1.01; // Multiplicador
   float retirada = numero; // Monto a ganar
   int retiro = 0; // Si ya se retiró o no
   int cont = 1; // Contador para mostrar la animación
@@ -220,9 +227,12 @@ void crash(int *saldo)
   printf("Tu saldo actual es: $%d\n", *saldo);
   printf("Ingresa la cantidad que deseas apostar: "); // Se le pide al usuario que ingrese la cantidad que desea apostar
   scanf("%d", &apuesta);
+  getchar();
   if (apuesta > *saldo)
   {
     printf("No tienes suficiente saldo para realizar esta apuesta.\n");
+    printf("Presione cualquier tecla para salir del juego.\n");
+    getchar();
     return;
   }
   *saldo -= apuesta; //Registra la apuesta
@@ -284,10 +294,11 @@ void crash(int *saldo)
   else // Si el usuario retiró a tiempo
   {
     printf("Ganaste con un multiplicador de %.2f\n", retirada);
-    *saldo = *saldo + (apuesta * retirada);
   }
+  *saldo = *saldo + (apuesta * retirada);
   printf("Tu saldo actual es: $%d\n", *saldo);
-  
+
+  //Se termina de comprobar si el usuario presiona una tecla
   pthread_cancel(inputThread); 
   pthread_join(inputThread, NULL);
   inputReceived = 0;
@@ -296,16 +307,19 @@ void crash(int *saldo)
 // Función para mostrar las reglas del crash
 void reglasCrash()
 {
-  printf("¿Deseas leer las reglas? (s/n) \n");
+  printf("Has elegido la opción 4: Crash\n");
+  printf("¿Deseas leer las reglas? (s/n) ");
   char respuesta;
   do
   {
     scanf(" %c", &respuesta);
+    getchar();
     if (respuesta == 's' || respuesta == 'S')
     {
       printf("Reglas del juego:\n");
       printf("El juego consiste en un avión que se mueve mientras que un multiplicador va aumentando. La idea es retirar el multiplicador antes de que el avión explote.\n");
       printf("Presione cualquier tecla para continuar.\n");
+      getchar();
       return;
     }
     else if (respuesta == 'n' || respuesta == 'N')

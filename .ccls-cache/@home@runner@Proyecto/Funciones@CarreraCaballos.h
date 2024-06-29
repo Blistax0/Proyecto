@@ -2,9 +2,13 @@
 #define CARRERA_H
 
 void mostrarMenu();
-void iniciarCarrera(int apuestaCaballo, int montoApuesta);
+
 void mostrarProgreso(int posiciones[]);
-int obtenerApuesta(int *montoApuesta);
-int carrera();
+
+void iniciarCarrera(int *montoUsuario);
+
+void carrera(int *saldo);
+
+void reglasCarrera();
 
 #endif

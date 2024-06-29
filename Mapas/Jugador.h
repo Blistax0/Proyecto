@@ -17,4 +17,5 @@ void registrarJugador(Map *Jugadores);
 void modificarJugador(Map *Jugadores,char *nombre, int monto);
 
 void modificarSaldo(Map* Jugadores, char *nombre, int monto);
+
 #endif

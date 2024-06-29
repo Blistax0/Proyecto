@@ -103,15 +103,17 @@ int main(void) {
     }
     //Despues de ingresar el nombre y saldo, se le pregunta si quiere jugar
     limpiarPantalla();
-    printf("==================================\n\n");
-    printf("    Bienvenido a Casino Zona 3    \n\n");
-    printf("==================================\n\n");
+    printf("                ==================================\n\n");
+    printf("                |   Bienvenido a Casino Zona 3    |\n\n");
+    printf("                ==================================\n\n");
+    printf("                    Tu saldo actual es: %d\n",saldo = player->dinero);
     printf("¿Cual juego desea jugar?\n");
     printf("1. Blackjack\n");
     printf("2. Ruleta\n");
     printf("3. Carrera de caballos\n");
     printf("4. Crash\n");
-    printf("5. Salir\n");
+    printf("5. Agregar saldo\n");
+    printf("6. Salir\n");
     scanf(" %c", &opcion);
     switch(opcion){
       case '1':
@@ -120,55 +122,95 @@ int main(void) {
         player->dinero = saldo;
         modificarSaldo(Mapa_Jugadores, nombre, saldo);
         guardarDatos(Mapa_Jugadores);  // Guardar cambios en el archivo
-        printf("Quieres seguir jugando? (1 para si, 0 para no): ");
-        scanf(" %d", &mantener);
-        if(mantener == 0)
-          break;
+        //printf("Quieres seguir jugando? (1 para si, 0 para no): ");
+        //scanf(" %d", &mantener);
+        //if(mantener == 0)
+        //  break;
         saldo = player->dinero;
+        break;
       case '2':
-        if (opcion == '2')
+        if (opcion == '2'){ // daba error si no lo ponia asi
+          //mantener = 1;
           Ruleta_Main(&saldo);
           player->dinero = saldo;
           modificarSaldo(Mapa_Jugadores, nombre, saldo);
           guardarDatos(Mapa_Jugadores);
-        break;
+          //printf("Quieres seguir jugando? (1 para si, 0 para no): ");
+          //scanf(" %d", &mantener);
+          //if(mantener == 0)
+          //  break;
+          saldo = player->dinero;
+          break;
+        }
+      
       case '3':
-        carrera();
-        break;
+        if (opcion == '3'){
+          limpiarPantalla();
+          reglasCarrera();
+          limpiarPantalla();
+          carrera(&saldo);
+          player->dinero = saldo;
+          modificarSaldo(Mapa_Jugadores, nombre, saldo);
+          guardarDatos(Mapa_Jugadores);  // Guardar cambios en el archivo
+          saldo = player->dinero;
+          break;
+        }
       case '4':
-        mantener = 1;
-        limpiarPantalla();
-        reglasCrash();
-        limpiarPantalla();
-        crash(&saldo);
-        int diff = saldo - player->dinero;
-        list_pushBack(historialCrash, &diff);
-        player->dinero = saldo;
-        modificarSaldo(Mapa_Jugadores, nombre, saldo);
-        guardarDatos(Mapa_Jugadores);
-        printf("Historial de partidas: \n");
-        List *aux = list_first(historialCrash);
-        printf("%d", *(int*)aux);
-        while (aux != NULL)
-        {
-          if (*(int*)aux > 0)
-            printf("+%d\n", *(int*)aux);
-          else
-            printf("%d\n", *(int*)aux);
-          aux = list_next(historialCrash);
+        if (opcion == '4'){
+          limpiarPantalla();
+          reglasCrash();
+          limpiarPantalla();
+          crash(&saldo);
+          int diff = saldo - player->dinero;
+          if (diff == 0) // En el caso que el usuario ingrese una apuesta mayor a su saldo
+            continue; //se continúa para que no se quede registrado en el historial
+
+          // Se guarda el último resultado en la lista y se modifican los archivos
+          int *diffPtr = malloc(sizeof(int)); //Nuevo bloque de memoria para no sobreescribir el valor de la variable
+          *diffPtr = diff;
+          list_pushBack(historialCrash, diffPtr);
+          player->dinero = saldo;
+          modificarSaldo(Mapa_Jugadores, nombre, saldo);
+          guardarDatos(Mapa_Jugadores);
+
+          // Se muestra el historial de resultados
+          printf("Historial de partidas: \n");
+          List *aux = list_first(historialCrash);
+          while (aux != NULL)
+          {
+            if (*(int*)aux > 0)
+              printf("+%d\n", *(int*)aux);
+            else
+              printf("%d\n", *(int*)aux);
+            aux = list_next(historialCrash);
+          }
+          printf("\n");
+
+          printf("Quieres seguir jugando? (1 para si, 0 para no): ");
+          //if (scanf(" %d", &mantener) != 1) {
+          //    while (getchar() != '\n'); // Limpiar el búfer de entrada
+          //    mantener = 0; // En caso de entrada no válida, detener el juego
+              //break;
+          //}
+          saldo = player->dinero;
+          break;
         }
-        printf("\n");
-        
-        printf("Quieres seguir jugando? (1 para si, 0 para no): ");
-        if (scanf(" %d", &mantener) != 1) {
-            while (getchar() != '\n'); // Limpiar el búfer de entrada
-            mantener = 0; // En caso de entrada no válida, detener el juego
-            break;
-        }
-        saldo = player->dinero;
-        //break;
       case '5':
+        system("clear");
+        printf("Tu saldo actual es: %d\n", saldo);
+        printf("Ingrese el monto a modificar: ");
+        scanf("%d", &dinero_ingresado);
+        modificarJugador(Mapa_Jugadores, nombre, dinero_ingresado);
+        guardarDatos(Mapa_Jugadores);
+        saldo = player->dinero;
+        printf("Dinero ingresado exitosamente. Tu nuevo saldo es: %d\n", saldo);
+        printf("Presione Enter para continuar...\n");
+        getchar();
+        getchar();
+        break;
+      case '6':
         aux = 0;
+        mantener = 0;
         limpiarPantalla();
         break;
       default:
