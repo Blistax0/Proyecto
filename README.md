@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este programa simula la experiencia de juego de un casino real, permitiendo a los usuarios elegir entre 4 juegos de azar: la carrera de caballos, la ruleta, el crash y el blackjack. Cada juego esta pensando de tal manera que sea una experiencia atractiva y lo más similar posible a la de un casino online.
+Este programa simula la experiencia de juego de un casino real, permitiendo a los usuarios elegir entre 4 juegos de azar: la carrera de caballos, la ruleta, el crash y el blackjack. Cada juego está pensando de tal manera que sea una experiencia atractiva y lo más similar posible a la de un casino online.
 
 ## Cómo compilar y ejecutar
 
@@ -35,12 +35,12 @@ Dado que el sistema está diseñado para ser accesible y de fácil utilizacion, 
     - En el caso que se ingresen una mayor cantidad de caracteres que los pedidos, podrían ocurrir diversos errores.
 - Ruleta
     - No se guarda el historial.
-    - Si se ingresa un valor que no se muestre(ejemplo: si el programa dice ingrese 2 y el usuario pone 1, el programa va correr y va dar error).
+    - Si se ingresa un valor que no se muestre(ejemplo: si el programa dice ingrese 2 y el usuario pone 1, el programa va correr y va dar error.
     - No se puede hacer que el programa se mantenga, ya que no se guarda el saldo en el cvs y da algunos problemas con los otros programas.
 
 ### A mejorar:
 
-- Se podría mejorar la interfaz del menú de registro e inicio de sesion para que sea más amigable
+- Se podría mejorar la interfaz del menú de registro e inicio de sesión para que sea más amigable.
 - Corregir errores mencionados anteriormente.
 
 ## Descripción de las diversas funciones 
@@ -473,7 +473,7 @@ Se le pregunta al usuario si es que desea seguir jugando.
 
 **Caso 1**
 
-Si es que asi lo desea, se sigue jugando y se repiten los pasos anteriores.
+Si es que así lo desea, se sigue jugando y se repiten los pasos anteriores.
 
 **Caso 2**
 
@@ -483,7 +483,7 @@ En el caso de que no se desee seguir jugando, serea
 
 ```
 
-### **Opcion 4: Crash**
+### **Opción 4: Crash**
 
 **Paso 1: Inicio**
 
@@ -641,8 +641,27 @@ Historial de partidas:
 Presione Enter para salir del juego.
 ````
 Finalmente se le pide al usuario que presione Enter para salir del juego. Esto hace que el jugador vuelva al menú principal.
-### **Opcion 5: Agregar saldo**
+### **Opción 5: Agregar saldo**
 
+**Paso 1: Se ingresa el saldo que se desea añadir**
+
+Primero se muestra el saldo del jugador y se le pregunta el monto a modificar
+
+```
+Tu saldo actual es: 10000
+Ingrese el monto a modificar: 
+```
+**Paso 2: Se muestra el nuevo saldo**
+
+Una vez ingresado se muestra el nuevo saldo ya modificado
+
+```
+Tu saldo actual es: 10000
+Ingrese el monto a modificar: 100
+El dinero del jugador Andy ha sido modificado exitosamente
+Dinero ingresado exitosamente. Tu nuevo saldo es: 10100
+Presione Enter para continuar...
+```
 
 # Contribuciones
 
