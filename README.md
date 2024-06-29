@@ -467,15 +467,6 @@ Lo siento, perdiste tu apuesta de $2000.
 
 Se le pregunta al usuario si es que desea seguir jugando.
 
-**Caso 1**
-
-Si es que así lo desea, se sigue jugando y se repiten los pasos anteriores.
-
-**Caso 2**
-
-En el caso de que no se desee seguir jugando, serea 
-
-
 ### **Opción 4: Crash**
 
 **Paso 1: Inicio**
